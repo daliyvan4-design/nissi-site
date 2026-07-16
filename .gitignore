@@ -5,3 +5,8 @@ node_modules/
 .env.*
 !.env.example
 .DS_Store
+.shots/
+preview/server.log
+preview/server.pid
+preview/standalone/*.html
+# garde preview/emails.html (preview utile pour les MAJ)

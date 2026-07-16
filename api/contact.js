@@ -10,6 +10,7 @@
 
 import { put } from '@vercel/blob';
 import { Resend } from 'resend';
+import { renderAdminEmail, renderAdminEmailPlain, renderClientEmail, renderClientEmailPlain } from '../lib/email-templates.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_BODY = 20_000; // 20 ko max pour eviter les payloads abusifs
@@ -29,15 +30,6 @@ function rateLimitCheck(ip){
   list.push(now);
   g.__nissiRateLimit.set(ip, list);
   return { ok:true };
-}
-
-function escapeHtml(v){
-  return String(v || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
 }
 
 function clean(v, max){
@@ -119,12 +111,14 @@ export default async function handler(req, res) {
 
   const result = { saved: false, emailed: false };
 
+  // Record final (partage entre Blob et emails)
+  const now = new Date();
+  const record = { ...data, created_at: now.toISOString(), ip };
+
   // 1) Sauvegarde dans Vercel Blob (un fichier JSON par message)
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
-      const now = new Date();
       const stamp = now.toISOString().replace(/[:.]/g, '-');
-      const record = { ...data, created_at: now.toISOString(), ip };
       await put(
         `contact-messages/${stamp}-${Math.random().toString(36).slice(2, 8)}.json`,
         JSON.stringify(record, null, 2),
@@ -136,28 +130,46 @@ export default async function handler(req, res) {
     }
   }
 
-  // 2) Notification email via Resend
+  // 2) Notification email via Resend (admin + accuse de reception visiteur)
   if (process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL) {
     try {
       const resend = new Resend(process.env.RESEND_API_KEY);
       const from = process.env.CONTACT_FROM_EMAIL || 'NISSI Contact <onboarding@resend.dev>';
-      const { error } = await resend.emails.send({
+      const emailConfig = {
+        logoWhiteUrl: process.env.EMAIL_LOGO_URL || 'https://nissi-site.vercel.app/assets/img/nissi-logo-white.png',
+        siteUrl: process.env.SITE_URL || 'https://nissi-site.vercel.app',
+        adminEmail: process.env.CONTACT_TO_EMAIL,
+        phone: process.env.CONTACT_PHONE || '+225 27 22 00 00 00',
+        address: process.env.CONTACT_ADDRESS || 'Abidjan, Côte d\'Ivoire'
+      };
+
+      // 2a) Mail admin -> arborescence interne
+      const adminRes = await resend.emails.send({
         from,
         to: [process.env.CONTACT_TO_EMAIL],
-        replyTo: data.email,
-        subject: `[NISSI Contact] ${data.sujet}`,
-        html: `
-          <h2>Nouvelle demande de contact</h2>
-          <p><strong>Nom :</strong> ${escapeHtml(data.prenom)} ${escapeHtml(data.nom)}</p>
-          <p><strong>Email :</strong> ${escapeHtml(data.email)}</p>
-          <p><strong>Telephone :</strong> ${escapeHtml(data.telephone || '-')}</p>
-          <p><strong>Sujet :</strong> ${escapeHtml(data.sujet)}</p>
-          <p><strong>Message :</strong></p>
-          <p style="white-space:pre-wrap">${escapeHtml(data.message)}</p>
-        `
+        replyTo: record.email,
+        subject: `[NISSI] ${record.sujet}`,
+        html: renderAdminEmail(record, emailConfig),
+        text: renderAdminEmailPlain(record)
       });
-      if (!error) result.emailed = true;
-      else console.error('Resend error:', error);
+      if (adminRes.error) {
+        console.error('Resend admin error:', adminRes.error);
+      } else {
+        result.emailed = true;
+      }
+
+      // 2b) Accuse de reception -> visiteur (best-effort, ne bloque pas l'envoi admin)
+      try {
+        await resend.emails.send({
+          from,
+          to: [record.email],
+          subject: 'Nous avons bien reçu votre message — NISSI Assurances',
+          html: renderClientEmail(record, emailConfig),
+          text: renderClientEmailPlain(record)
+        });
+      } catch (err) {
+        console.error('Resend client email error:', err);
+      }
     } catch (err) {
       console.error('Resend error:', err);
     }
