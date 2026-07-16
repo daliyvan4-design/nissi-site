@@ -4,7 +4,7 @@
   "private": true,
   "description": "Site NISSI - statique + API contact (Resend + Postgres)",
   "dependencies": {
-    "resend": "^4.5.1",
-    "@neondatabase/serverless": "^0.10.4"
+    "@vercel/blob": "^2.6.1",
+    "resend": "^4.5.1"
   }
 }

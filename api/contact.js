@@ -1,13 +1,13 @@
 // API de contact NISSI
-// - Enregistre chaque demande dans Postgres (Neon via Vercel)
+// - Enregistre chaque demande dans Vercel Blob (stockage fichiers JSON)
 // - Envoie une notification email via Resend
 // Variables d'environnement attendues :
-//   DATABASE_URL      -> fournie automatiquement par l'integration Neon/Vercel
-//   RESEND_API_KEY    -> cle API Resend
-//   CONTACT_TO_EMAIL  -> adresse qui recoit les demandes
-//   CONTACT_FROM_EMAIL-> expediteur (ex: onboarding@resend.dev tant qu'aucun domaine n'est verifie)
+//   BLOB_READ_WRITE_TOKEN -> fournie automatiquement par le store Blob lie au projet Vercel
+//   RESEND_API_KEY        -> cle API Resend
+//   CONTACT_TO_EMAIL      -> adresse qui recoit les demandes
+//   CONTACT_FROM_EMAIL    -> expediteur (ex: onboarding@resend.dev tant qu'aucun domaine n'est verifie)
 
-import { neon } from '@neondatabase/serverless';
+import { put } from '@vercel/blob';
 import { Resend } from 'resend';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,27 +38,20 @@ export default async function handler(req, res) {
 
   const result = { saved: false, emailed: false };
 
-  // 1) Sauvegarde en base (Postgres / Neon)
-  if (process.env.DATABASE_URL) {
+  // 1) Sauvegarde dans Vercel Blob (un fichier JSON par message)
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
-      const sql = neon(process.env.DATABASE_URL);
-      await sql`
-        CREATE TABLE IF NOT EXISTS contact_messages (
-          id SERIAL PRIMARY KEY,
-          prenom TEXT NOT NULL,
-          nom TEXT NOT NULL,
-          email TEXT NOT NULL,
-          telephone TEXT,
-          sujet TEXT NOT NULL,
-          message TEXT NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-        )`;
-      await sql`
-        INSERT INTO contact_messages (prenom, nom, email, telephone, sujet, message)
-        VALUES (${data.prenom}, ${data.nom}, ${data.email}, ${data.telephone}, ${data.sujet}, ${data.message})`;
+      const now = new Date();
+      const stamp = now.toISOString().replace(/[:.]/g, '-');
+      const record = { ...data, created_at: now.toISOString() };
+      await put(
+        `contact-messages/${stamp}-${Math.random().toString(36).slice(2, 8)}.json`,
+        JSON.stringify(record, null, 2),
+        { access: 'private', contentType: 'application/json' }
+      );
       result.saved = true;
     } catch (err) {
-      console.error('DB error:', err);
+      console.error('Blob error:', err);
     }
   }
 
