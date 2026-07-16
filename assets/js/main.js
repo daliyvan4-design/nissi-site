@@ -1,48 +1,206 @@
+/* ===========================================================
+   NISSI Assurances — main.js
+   Moteur parallaxe immersif + reveals + analytics tracking
+   =========================================================== */
 (function(){
   'use strict';
 
-  /* ===== Parallax (data-px) ===== */
-  function initParallax(){
+  // ---------- Helpers ----------
+  function clamp(v, a, b){return Math.max(a, Math.min(b, v))}
+  function rafThrottle(fn){
+    var ticking = false, lastArgs;
+    return function(){
+      lastArgs = arguments;
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        fn.apply(null, lastArgs);
+        ticking = false;
+      });
+    };
+  }
+  function reducedMotion(){
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  function safeSend(url, payload){
+    try{
+      var data = JSON.stringify(payload || {});
+      if(navigator.sendBeacon){
+        var blob = new Blob([data], {type:'application/json'});
+        if(navigator.sendBeacon(url, blob)) return;
+      }
+    }catch(e){}
+    try{
+      fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload||{}), keepalive:true}).catch(function(){});
+    }catch(e){}
+  }
+
+  // ====================================================
+  // 1) Parallaxe scroll multi-couches (data-px)
+  // ====================================================
+  function initScrollParallax(){
     var els = Array.prototype.slice.call(document.querySelectorAll('[data-px]'));
     if(!els.length) return;
 
     els.forEach(function(el){
-      // Each element moves relative to its nearest section/header
-      el._sec = el.closest('header') || el.closest('section') || document.body;
-      // Make sure transforms don't get clipped at small viewports
+      el._sec = el.closest('header,section,footer') || document.body;
       el.style.willChange = 'transform';
     });
 
-    var ticking = false;
-    function update(){
-      var viewportH = window.innerHeight || document.documentElement.clientHeight;
-      els.forEach(function(el){
-        var sp = parseFloat(el.getAttribute('data-px'));
-        if(!sp) return;
-        var rect = el._sec.getBoundingClientRect();
-        // distance from section top to viewport top
-        var t = rect.top;
-        // If element is way off-screen, skip transform to save GPU
-        if(rect.bottom < -200 || rect.top > viewportH + 200) return;
-        var y = -t * sp;
-        el.style.transform = 'translate3d(0,' + y.toFixed(2) + 'px,0)';
-      });
-      ticking = false;
-    }
+    var vh = function(){return window.innerHeight || document.documentElement.clientHeight};
 
-    function onScroll(){
-      if(!ticking){
-        requestAnimationFrame(update);
-        ticking = true;
+    function update(){
+      var h = vh();
+      for(var i=0;i<els.length;i++){
+        var el = els[i];
+        var sp = parseFloat(el.getAttribute('data-px')) || 0;
+        var rect = el._sec.getBoundingClientRect();
+        if(rect.bottom < -400 || rect.top > h + 400) continue;
+        var t = rect.top;
+        // Apply eased parallax with clamp to avoid huge offsets
+        var y = clamp(-t * sp, -260, 260);
+        el.style.transform = 'translate3d(0,' + y.toFixed(2) + 'px,0)';
       }
     }
 
+    var onScroll = rafThrottle(update);
     window.addEventListener('scroll', onScroll, {passive:true});
     window.addEventListener('resize', onScroll, {passive:true});
     update();
   }
 
-  /* ===== Mobile menu ===== */
+  // ====================================================
+  // 2) Parallaxe souris (data-px-mouse) — effet profondeur hero
+  // ====================================================
+  function initMouseParallax(){
+    if(reducedMotion()) return;
+    var els = Array.prototype.slice.call(document.querySelectorAll('[data-px-mouse]'));
+    if(!els.length) return;
+
+    var mx = 0, my = 0; // -1..1
+    var tx = 0, ty = 0;
+    var active = false;
+
+    function onMove(e){
+      var w = window.innerWidth, h = window.innerHeight;
+      mx = (e.clientX / w) * 2 - 1;
+      my = (e.clientY / h) * 2 - 1;
+      if(!active){active = true; loop()}
+    }
+    function onLeave(){
+      mx = 0; my = 0;
+    }
+    function loop(){
+      tx += (mx - tx) * 0.08;
+      ty += (my - ty) * 0.08;
+      for(var i=0;i<els.length;i++){
+        var el = els[i];
+        var depth = parseFloat(el.getAttribute('data-px-mouse')) || 0.3; // px max
+        var dx = tx * depth * 22;
+        var dy = ty * depth * 18;
+        el.style.transform = 'translate3d(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px,0)';
+      }
+      if(Math.abs(mx-tx) > 0.001 || Math.abs(my-ty) > 0.001){
+        requestAnimationFrame(loop);
+      } else {
+        active = false;
+      }
+    }
+
+    window.addEventListener('mousemove', onMove, {passive:true});
+    document.addEventListener('mouseleave', onLeave);
+    window.addEventListener('blur', onLeave);
+  }
+
+  // ====================================================
+  // 3) Reveal on scroll (data-reveal / data-reveal-stagger)
+  // ====================================================
+  function initReveals(){
+    if(!('IntersectionObserver' in window)){
+      // No IO: just show
+      document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(function(el){
+        el.classList.add('is-in');
+      });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {rootMargin:'-40px 0px -10% 0px', threshold:0.05});
+
+    document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(function(el){
+      io.observe(el);
+    });
+  }
+
+  // ====================================================
+  // 4) Text reveal letter by letter
+  // ====================================================
+  function initTextReveal(){
+    if(!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var el = entry.target;
+          var chars = (el.textContent || '').split('');
+          el.textContent = '';
+          chars.forEach(function(ch, i){
+            var span = document.createElement('span');
+            span.textContent = ch === ' ' ? '\u00A0' : ch;
+            span.style.setProperty('--d', (i * 0.018) + 's');
+            el.appendChild(span);
+          });
+          requestAnimationFrame(function(){el.classList.add('is-in')});
+          io.unobserve(el);
+        }
+      });
+    }, {threshold:0.4});
+    document.querySelectorAll('[data-txt-reveal]').forEach(function(el){io.observe(el)});
+  }
+
+  // ====================================================
+  // 5) Sticky nav state on scroll
+  // ====================================================
+  function initStickyNav(){
+    var wrap = document.querySelector('.nnav-wrap');
+    if(!wrap) return;
+    function onScroll(){
+      if(window.scrollY > 12) wrap.classList.add('is-stuck');
+      else wrap.classList.remove('is-stuck');
+    }
+    window.addEventListener('scroll', rafThrottle(onScroll), {passive:true});
+    onScroll();
+  }
+
+  // ====================================================
+  // 6) Tilt 3D cards
+  // ====================================================
+  function initTilt(){
+    if(reducedMotion()) return;
+    var els = Array.prototype.slice.call(document.querySelectorAll('.tilt-3d'));
+    if(!els.length) return;
+    els.forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        var r = el.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        var rx = (py - 0.5) * -6;
+        var ry = (px - 0.5) * 8;
+        el.style.transform = 'perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateY(-2px)';
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transform = '';
+      });
+    });
+  }
+
+  // ====================================================
+  // 7) Mobile menu
+  // ====================================================
   function initMobileMenu(){
     var burger = document.querySelector('.nnav__burger');
     var panel = document.querySelector('.nnav__mobile');
@@ -51,28 +209,25 @@
     function open(){
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden','false');
+      burger.classList.add('is-open');
       document.body.style.overflow = 'hidden';
     }
     function close(){
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden','true');
+      burger.classList.remove('is-open');
       document.body.style.overflow = '';
     }
-
-    burger.addEventListener('click', open);
-    panel.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', close);
-    });
+    burger.addEventListener('click', function(){panel.classList.contains('is-open') ? close() : open()});
+    panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click', close)});
     var closer = panel.querySelector('.close');
     if(closer) closer.addEventListener('click', close);
-
-    // Esc closes
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape') close();
-    });
+    document.addEventListener('keydown', function(e){if(e.key === 'Escape') close()});
   }
 
-  /* ===== Contact form (validation + confirm) ===== */
+  // ====================================================
+  // 8) Contact form (validation + envoi API + honeypot)
+  // ====================================================
   function initContactForm(){
     var form = document.querySelector('[data-contact-form]');
     if(!form) return;
@@ -80,10 +235,8 @@
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
-      // clear previous errors
       form.querySelectorAll('.field-error').forEach(function(n){n.remove()});
       var invalid = [];
-
       var required = [
         {name:'prenom', label:'Prenom'},
         {name:'nom', label:'Nom'},
@@ -91,7 +244,6 @@
         {name:'sujet', label:'Sujet'},
         {name:'message', label:'Message'}
       ];
-
       required.forEach(function(r){
         var el = form.querySelector('[name="'+r.name+'"]');
         if(!el) return;
@@ -109,13 +261,18 @@
           el.style.borderColor = '';
         }
       });
-
       var consent = form.querySelector('[name="consent"]');
       if(consent && !consent.checked){
         invalid.push('Consentement');
         consent.parentNode.style.color = '#E4032C';
       }
-
+      // Honeypot (anti-spam) — champ cache doit rester vide
+      var hp = form.querySelector('[name="_hp"]');
+      if(hp && hp.value){
+        // Simule succes silencieux pour ne pas guider le bot
+        form.reset();
+        return;
+      }
       if(invalid.length){
         if(confirm){
           confirm.textContent = 'Merci de completer : ' + invalid.join(', ');
@@ -124,14 +281,11 @@
         }
         return;
       }
-
-      // Envoi au serveur (API /api/contact : email + base de donnees)
       var payload = {};
       ['prenom','nom','email','telephone','sujet','message'].forEach(function(n){
         var el = form.querySelector('[name="'+n+'"]');
         if(el) payload[n] = (el.value || '').trim();
       });
-
       var btn = form.querySelector('[type="submit"]');
       if(btn) btn.disabled = true;
       if(confirm){
@@ -139,7 +293,6 @@
         confirm.style.background = '#eef2f7';
         confirm.style.color = '#33475b';
       }
-
       fetch('/api/contact', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -154,6 +307,8 @@
           confirm.style.color = '#1F8A5B';
         }
         form.reset();
+        // Track conversion
+        safeSend('/api/track', {type:'conversion', path: location.pathname, target:'contact-form'});
       }).catch(function(){
         if(confirm){
           confirm.textContent = 'Une erreur est survenue lors de l\'envoi. Merci de reessayer dans un instant.';
@@ -166,16 +321,82 @@
     });
   }
 
-  /* ===== Boot ===== */
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){
-      initParallax();
-      initMobileMenu();
-      initContactForm();
+  // ====================================================
+  // 9) Analytics tracking (pageview + clicks)
+  // ====================================================
+  function initAnalytics(){
+    // Session ID persistant (1 an) - anonyme, non PII
+    var sid = '';
+    try {
+      var m = document.cookie.match(/(?:^|; )nissi_sid=([^;]+)/);
+      if (m) sid = m[1];
+      if (!sid) {
+        sid = 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        var exp = new Date(); exp.setFullYear(exp.getFullYear() + 1);
+        document.cookie = 'nissi_sid=' + sid + '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
+      }
+    } catch(e){ sid = 'anon'; }
+
+    // 1) Pageview
+    safeSend('/api/track', {
+      type: 'pageview',
+      path: location.pathname,
+      session: sid,
+      ref: document.referrer || '',
+      title: document.title,
+      screen: screen.width + 'x' + screen.height
     });
-  } else {
-    initParallax();
+
+    // 2) Outbound CTA clicks (data-track)
+    document.addEventListener('click', function(e){
+      var t = e.target;
+      while(t && t !== document.body){
+        if(t.dataset && t.dataset.track){
+          safeSend('/api/track', {
+            type: 'click',
+            path: location.pathname,
+            session: sid,
+            target: t.dataset.track,
+            href: t.getAttribute('href') || ''
+          });
+          break;
+        }
+        t = t.parentNode;
+      }
+    });
+
+    // 3) Reading time / scroll depth (single ping at 50% and 90%)
+    var sent50 = false, sent90 = false;
+    function onScroll(){
+      var h = document.documentElement;
+      var b = document.body;
+      var docH = Math.max(b.scrollHeight, h.scrollHeight) - window.innerHeight;
+      if(docH <= 0) return;
+      var pct = window.scrollY / docH;
+      if(!sent50 && pct >= 0.5){sent50 = true; safeSend('/api/track', {type:'scroll', path:location.pathname, session:sid, depth:50})}
+      if(!sent90 && pct >= 0.9){sent90 = true; safeSend('/api/track', {type:'scroll', path:location.pathname, session:sid, depth:90})}
+    }
+    window.addEventListener('scroll', rafThrottle(onScroll), {passive:true});
+  }
+
+  // ====================================================
+  // 10) Boot
+  // ====================================================
+  function boot(){
+    initScrollParallax();
+    initMouseParallax();
+    initReveals();
+    initTextReveal();
+    initStickyNav();
+    initTilt();
     initMobileMenu();
     initContactForm();
+    initAnalytics();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 })();

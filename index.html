@@ -13,20 +13,26 @@
 <body>
 
 <!-- HERO -->
-<header style="position:relative;overflow:hidden;background:radial-gradient(130% 130% at 12% 8%,#d21732 0%,#C41230 44%,#a10f25 100%)">
+<header class="hero" style="background:radial-gradient(130% 130% at 12% 8%,#d21732 0%,#C41230 44%,#a10f25 100%);min-height:100vh">
+  <div class="hero-grain"></div>
+
+  <div class="float-blob" data-px-mouse="0.7" style="left:-120px;top:60px;width:520px;height:520px;background:radial-gradient(circle,rgba(255,90,120,.55),rgba(228,3,44,0) 60%)"></div>
+  <div class="float-blob" data-px-mouse="1"   style="right:-180px;top:-100px;width:680px;height:680px;background:radial-gradient(circle,rgba(239,175,180,.45),rgba(228,3,44,0) 60%)"></div>
+  <div class="float-blob" data-px-mouse="0.5" style="left:38%;bottom:-200px;width:720px;height:720px;background:radial-gradient(circle,rgba(255,217,221,.35),rgba(228,3,44,0) 60%)"></div>
+
   <svg viewBox="0 0 1440 820" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
-    <g data-px="0.1"><path transform="translate(720 -40) scale(13)" fill="#e0304c" opacity=".14" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.5"><path transform="translate(1120 120) scale(3.2)" fill="#fff" opacity=".85" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.72"><path transform="translate(300 520) scale(1.8)" fill="#EFAFB4" opacity=".8" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.36"><path transform="translate(880 360) scale(1.3)" fill="#ffd9dd" opacity=".7" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.24" fill="none" stroke-linecap="round">
+    <g data-px="0.05" data-px-mouse="0.4"><path transform="translate(720 -40) scale(13)" fill="#e0304c" opacity=".14" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.5"  data-px-mouse="0.3"><path transform="translate(1120 120) scale(3.2)" fill="#fff" opacity=".85" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.72" data-px-mouse="0.2"><path transform="translate(300 520) scale(1.8)" fill="#EFAFB4" opacity=".8" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.36" data-px-mouse="0.25"><path transform="translate(880 360) scale(1.3)" fill="#ffd9dd" opacity=".7" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.22" fill="none" stroke-linecap="round">
       <path d="M-140 780 C 300 600 640 480 1560 40" stroke="#EFAFB4" stroke-width="1.4" opacity=".22"/>
     </g>
-    <g data-px="0.44" fill="none" stroke-linecap="round">
+    <g data-px="0.4"  fill="none" stroke-linecap="round">
       <path d="M-120 740 C 320 560 660 440 1540 20" stroke="#EFAFB4" stroke-width="3" opacity=".5"/>
       <path d="M-80 810 C 360 640 700 520 1560 150" stroke="#ffd9dd" stroke-width="2" opacity=".4"/>
     </g>
-    <g data-px="0.7" fill="none" stroke-linecap="round">
+    <g data-px="0.7"  fill="none" stroke-linecap="round">
       <path d="M-40 680 C 360 500 680 380 1520 -30" stroke="#fff" stroke-width="1.5" opacity=".3"/>
       <path d="M40 880 C 460 720 780 620 1580 280" stroke="#EFAFB4" stroke-width="2.6" opacity=".5"/>
     </g>
@@ -36,70 +42,120 @@
     <nav class="nnav">
       <a href="index.html" class="nnav__brand"><img src="assets/img/nissi-logo.png" alt="NISSI ASSURANCES"></a>
       <div class="nnav__links">
+        <a class="nav-lnk on" href="index.html">Accueil</a>
         <a class="nav-lnk" href="services.html">Services</a>
         <a class="nav-lnk" href="#reseau">Reseau de soins</a>
         <a class="nav-lnk" href="a-propos.html">A propos</a>
         <a class="nav-lnk" href="contact.html">Contact</a>
       </div>
-      <a class="navbtn" href="contact.html">Demander un devis</a>
+      <a class="navbtn" href="contact.html" data-track="nav-devis">Demander un devis</a>
       <button class="nnav__burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </nav>
   </div>
 
   <div class="nnav__mobile" aria-hidden="true">
     <button class="close" aria-label="Fermer">&times;</button>
+    <a href="index.html">Accueil</a>
     <a href="services.html">Services</a>
     <a href="#reseau">Reseau de soins</a>
     <a href="a-propos.html">A propos</a>
     <a href="contact.html">Contact</a>
-    <a class="navbtn" href="contact.html">Demander un devis</a>
+    <a class="navbtn" href="contact.html" data-track="nav-devis-mobile">Demander un devis</a>
   </div>
 
-  <div style="position:relative;z-index:10;max-width:1180px;margin:0 auto;padding:60px 56px 96px">
-    <h1 class="h1-mobile" style="font:900 78px/.98 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;color:#fff;max-width:900px;text-wrap:balance;margin-bottom:24px;padding-top:8px">Votre assurance,<br>notre priorite.</h1>
-    <p style="max-width:520px;font:500 19px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.9);margin-bottom:40px">Rigueur, expertise et proximite humaine. Nous negocions et pilotons vos garanties, pour vous, vos proches et votre entreprise, en toute transparence.</p>
-    <div style="display:flex;gap:14px;align-items:center;margin-bottom:56px;flex-wrap:wrap">
-      <a class="btn-p" style="background:#fff;color:#C41230;padding:16px 28px" href="contact.html">Demander un devis</a>
-      <a class="btn-g" href="services.html">Decouvrir nos services  →</a>
+  <div style="position:relative;z-index:10;max-width:1180px;margin:0 auto;padding:60px 56px 120px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px)">
+    <div data-reveal="slide-right" style="display:inline-flex;align-items:center;gap:10px;padding:9px 16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:100px;font:600 12.5px 'Manrope',sans-serif;color:#fff;margin-bottom:30px;width:max-content;backdrop-filter:blur(8px)">
+      <span style="width:8px;height:8px;border-radius:50%;background:#7CF098;box-shadow:0 0 12px #7CF098"></span>
+      Courtier agree — Abidjan, Cote d'Ivoire
     </div>
-    <div class="grid grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:760px;border-top:1px solid rgba(255,255,255,.22);padding-top:30px">
-      <div><div style="font:900 40px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">5 000+</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.8);margin-top:8px">clients proteges</div></div>
-      <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:28px"><div style="font:900 40px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">250+</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.8);margin-top:8px">partenaires de soins</div></div>
-      <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:28px"><div style="font:900 40px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">24h</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.8);margin-top:8px">reponse a votre demande</div></div>
+    <h1 class="h1-mobile" data-txt-reveal style="font:900 86px/.95 'Schibsted Grotesk',sans-serif;letter-spacing:-.04em;color:#fff;max-width:980px;text-wrap:balance;margin-bottom:28px;padding-top:8px">Votre assurance,<br>notre priorite.</h1>
+    <p data-reveal="fade" style="max-width:560px;font:500 19px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.92);margin-bottom:42px;transition-delay:.2s">Rigueur, expertise et proximite humaine. Nous negocions et pilotons vos garanties, pour vous, vos proches et votre entreprise, en toute transparence.</p>
+    <div data-reveal="slide-left" style="display:flex;gap:14px;align-items:center;margin-bottom:64px;flex-wrap:wrap;transition-delay:.3s">
+      <a class="btn-p" style="background:#fff;color:#C41230;padding:17px 30px;font-size:16px" href="contact.html" data-track="hero-devis">Demander un devis</a>
+      <a class="btn-g" href="services.html" data-track="hero-services">Decouvrir nos services  →</a>
     </div>
+    <div data-reveal-stagger style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:780px;border-top:1px solid rgba(255,255,255,.22);padding-top:34px">
+      <div><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">5 000+</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.82);margin-top:10px">clients proteges</div></div>
+      <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:32px"><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">250+</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.82);margin-top:10px">partenaires de soins</div></div>
+      <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:32px"><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">24h</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.82);margin-top:10px">reponse a votre demande</div></div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:15;color:rgba(255,255,255,.7);font:600 12px 'Manrope',sans-serif;letter-spacing:.18em;display:flex;flex-direction:column;align-items:center;gap:8px">
+    SCROLL
+    <span style="display:block;width:1px;height:36px;background:linear-gradient(180deg,rgba(255,255,255,.7),transparent);animation:scrollDown 1.8s ease-in-out infinite"></span>
   </div>
 </header>
 
+<style>@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}</style>
+
+<!-- MARQUEE -->
+<section data-reveal="fade" style="background:#f5f3f1;padding:22px 0;border-bottom:1px solid rgba(0,0,0,.06);overflow:hidden">
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">SANTE &middot; PREVOYANCE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">RETRAITE &amp; EPARGNE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">AUTOMOBILE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">HABITATION</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">MULTIRISQUE ENTREPRISE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">VOYAGE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">RESPONSABILITE CIVILE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">SANTE &middot; PREVOYANCE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">RETRAITE &amp; EPARGNE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">AUTOMOBILE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">HABITATION</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">MULTIRISQUE ENTREPRISE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">VOYAGE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+      <span style="font:700 18px 'Schibsted Grotesk',sans-serif;color:rgba(0,0,0,.32);letter-spacing:.04em">RESPONSABILITE CIVILE</span>
+      <span style="color:rgba(0,0,0,.18)">/</span>
+    </div>
+  </div>
+</section>
+
 <!-- VALEURS -->
-<section style="background:#f5f3f1;border-bottom:1px solid rgba(0,0,0,.06)">
-  <div class="container" style="padding-top:88px;padding-bottom:88px">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:52px;gap:40px;flex-wrap:wrap">
+<section data-reveal="fade" style="background:#f5f3f1;border-bottom:1px solid rgba(0,0,0,.06);position:relative;overflow:hidden">
+  <div class="float-blob" data-px-mouse="0.4" style="right:-160px;top:40px;width:380px;height:380px;background:radial-gradient(circle,rgba(228,3,44,.16),transparent 60%)"></div>
+  <div class="container" style="padding-top:100px;padding-bottom:100px;position:relative">
+    <div data-reveal="slide-right" style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px;gap:40px;flex-wrap:wrap">
       <div>
         <div class="eyebrow"><span class="eyebrow__bar"></span><span class="eyebrow__label">POURQUOI NISSI</span></div>
-        <h2 class="section-title" style="max-width:640px">La solidite d'un expert, l'attention d'un proche.</h2>
+        <h2 class="section-title" style="max-width:680px">La solidite d'un expert, l'attention d'un proche.</h2>
       </div>
-      <p style="max-width:320px;font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Un accompagnement de bout en bout : du conseil a la gestion des sinistres, nous restons a vos cotes.</p>
+      <p style="max-width:340px;font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Un accompagnement de bout en bout : du conseil a la gestion des sinistres, nous restons a vos cotes.</p>
     </div>
-    <div class="grid grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
-      <div class="val-card" style="padding:30px;border:1px solid rgba(0,0,0,.09);border-radius:16px;background:#fff">
-        <div class="val-badge" style="width:52px;height:52px;border-radius:13px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:22px">
+    <div data-reveal-stagger class="grid grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div class="val-card tilt-3d" style="padding:32px;border:1px solid rgba(0,0,0,.09);border-radius:18px;background:#fff">
+        <div class="val-badge" style="width:54px;height:54px;border-radius:14px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E4032C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.2-3 6.7-7 8-4-1.3-7-3.8-7-8V6z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
-        <h3 style="font:700 21px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Solidite financiere</h3>
+        <h3 style="font:700 22px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Solidite financiere</h3>
         <p style="font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Des partenaires assureurs de premier plan pour honorer chaque engagement.</p>
       </div>
-      <div class="val-card" style="padding:30px;border:1px solid rgba(0,0,0,.09);border-radius:16px;background:#fff">
-        <div class="val-badge" style="width:52px;height:52px;border-radius:13px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:22px">
+      <div class="val-card tilt-3d" style="padding:32px;border:1px solid rgba(0,0,0,.09);border-radius:18px;background:#fff">
+        <div class="val-badge" style="width:54px;height:54px;border-radius:14px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E4032C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l2 4 3-9 2 5h5"/></svg>
         </div>
-        <h3 style="font:700 21px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Expertise reconnue</h3>
+        <h3 style="font:700 22px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Expertise reconnue</h3>
         <p style="font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Des conseillers qui maitrisent les risques du marche ivoirien et vos besoins reels.</p>
       </div>
-      <div class="val-card" style="padding:30px;border:1px solid rgba(0,0,0,.09);border-radius:16px;background:#fff">
-        <div class="val-badge" style="width:52px;height:52px;border-radius:13px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:22px">
+      <div class="val-card tilt-3d" style="padding:32px;border:1px solid rgba(0,0,0,.09);border-radius:18px;background:#fff">
+        <div class="val-badge" style="width:54px;height:54px;border-radius:14px;background:#fdeef0;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E4032C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/></svg>
         </div>
-        <h3 style="font:700 21px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Proximite humaine</h3>
+        <h3 style="font:700 22px 'Schibsted Grotesk',sans-serif;margin-bottom:10px">Proximite humaine</h3>
         <p style="font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Un interlocuteur dedie, disponible et reactif, qui vous connait par votre nom.</p>
       </div>
     </div>
@@ -107,43 +163,47 @@
 </section>
 
 <!-- SERVICES -->
-<section class="container" style="padding-top:72px;padding-bottom:40px">
-  <div class="eyebrow"><span class="eyebrow__bar" style="background:#7F7F7F"></span><span class="eyebrow__label">NOS DOMAINES</span></div>
-  <h2 class="section-title" style="margin-bottom:44px">Deux grandes familles d'assurance.</h2>
-  <div class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-    <a href="services.html" class="svc-card">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
-        <div style="width:48px;height:48px;border-radius:12px;background:#E4032C;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></div>
-        <h3 style="font:700 25px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em">Assurances de Personnes &amp; Sante</h3>
+<section data-reveal="fade" class="container" style="padding-top:96px;padding-bottom:48px;position:relative">
+  <div data-reveal="slide-right" style="margin-bottom:52px">
+    <div class="eyebrow"><span class="eyebrow__bar" style="background:#7F7F7F"></span><span class="eyebrow__label">NOS DOMAINES</span></div>
+    <h2 class="section-title" style="max-width:780px;margin-bottom:14px">Deux grandes familles d'assurance.</h2>
+    <p style="max-width:520px;font:500 16px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Une equipe unique pour proteger ce qui compte le plus pour vous, particuliers ou professionnels.</p>
+  </div>
+  <div data-reveal-stagger class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <a href="services.html" class="svc-card tilt-3d" data-track="svc-personnes">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px">
+        <div style="width:50px;height:50px;border-radius:13px;background:#E4032C;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></div>
+        <h3 style="font:700 26px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em">Assurances de Personnes &amp; Sante</h3>
       </div>
-      <p style="font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute);margin-bottom:24px">Protegez votre sante, votre famille et votre avenir avec des couvertures sur mesure.</p>
+      <p style="font:500 15.5px/1.65 'Manrope',sans-serif;color:var(--c-mute);margin-bottom:26px">Protegez votre sante, votre famille et votre avenir avec des couvertures sur mesure.</p>
       <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Sante &amp; prevoyance</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Retraite &amp; epargne</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Deces &amp; obseques</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Voyage</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Sante &amp; prevoyance</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Retraite &amp; epargne</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Deces &amp; obseques</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Voyage</span>
       </div>
-      <div style="margin-top:26px;font:700 14.5px 'Manrope',sans-serif;color:var(--c-red)">Explorer  →</div>
+      <div style="margin-top:30px;font:700 14.5px 'Manrope',sans-serif;color:var(--c-red);display:flex;align-items:center;gap:6px">Explorer <span style="transition:transform .3s" class="arr">→</span></div>
     </a>
-    <a href="services.html" class="svc-card">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
-        <div style="width:48px;height:48px;border-radius:12px;background:#1a1416;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-        <h3 style="font:700 25px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em">Assurances de Biens &amp; Pro</h3>
+    <a href="services.html" class="svc-card tilt-3d" data-track="svc-biens">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px">
+        <div style="width:50px;height:50px;border-radius:13px;background:#1a1416;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+        <h3 style="font:700 26px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em">Assurances de Biens &amp; Pro</h3>
       </div>
-      <p style="font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute);margin-bottom:24px">Securisez vos vehicules, vos locaux et votre activite professionnelle.</p>
+      <p style="font:500 15.5px/1.65 'Manrope',sans-serif;color:var(--c-mute);margin-bottom:26px">Securisez vos vehicules, vos locaux et votre activite professionnelle.</p>
       <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Automobile</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Habitation</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Multirisque entreprise</span>
-        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:7px 13px;background:#f6f2f0;border-radius:100px">Responsabilite civile</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Automobile</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Habitation</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Multirisque entreprise</span>
+        <span style="font:600 13px 'Manrope',sans-serif;color:#3a3236;padding:8px 14px;background:#f6f2f0;border-radius:100px">Responsabilite civile</span>
       </div>
-      <div style="margin-top:26px;font:700 14.5px 'Manrope',sans-serif;color:var(--c-red)">Explorer  →</div>
+      <div style="margin-top:30px;font:700 14.5px 'Manrope',sans-serif;color:var(--c-red);display:flex;align-items:center;gap:6px">Explorer <span style="transition:transform .3s" class="arr">→</span></div>
     </a>
   </div>
+  <style>.svc-card:hover .arr{transform:translateX(6px)}</style>
 </section>
 
 <!-- separator (rose trails) -->
-<div style="position:relative;height:120px;overflow:hidden">
+<div data-reveal="clip-up" style="position:relative;height:120px;overflow:hidden">
   <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
     <g data-px="0.28" fill="none" stroke-linecap="round">
       <path d="M-40 150 C 360 40 760 20 1500 -30" stroke="#EFAFB4" stroke-width="2" opacity=".55"/>
@@ -153,38 +213,43 @@
 </div>
 
 <!-- RESEAU DE SOINS -->
-<section id="reseau" style="position:relative;overflow:hidden;background:radial-gradient(130% 170% at 82% 12%,#241b1e 0%,#161113 52%,#0d0a0b 100%)">
+<section id="reseau" data-reveal="fade" style="position:relative;overflow:hidden;background:radial-gradient(130% 170% at 82% 12%,#241b1e 0%,#161113 52%,#0d0a0b 100%)">
+  <div class="float-blob" data-px-mouse="0.5" style="left:-100px;bottom:-100px;width:480px;height:480px;background:radial-gradient(circle,rgba(228,3,44,.35),transparent 60%)"></div>
+  <div class="float-blob" data-px-mouse="0.3" style="right:-150px;top:-150px;width:520px;height:520px;background:radial-gradient(circle,rgba(239,175,180,.18),transparent 60%)"></div>
   <svg viewBox="0 0 1440 460" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
     <path transform="translate(120 300) scale(10)" fill="#C41230" opacity=".22" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/>
     <g data-px="0.34" fill="none" stroke-linecap="round"><path d="M-60 500 C 380 360 780 280 1520 -20" stroke="#C41230" stroke-width="2.6" opacity=".7"/><path d="M-40 560 C 420 420 820 340 1540 60" stroke="#E4032C" stroke-width="1.5" opacity=".5"/></g>
   </svg>
-  <div style="position:relative;max-width:1180px;margin:0 auto;padding:80px 56px">
-    <div style="max-width:560px;margin-bottom:52px">
-      <div style="font:700 13px 'Manrope',sans-serif;letter-spacing:.14em;color:var(--c-red);margin-bottom:14px">RESEAU DE SOINS</div>
-      <h2 style="font:800 44px/1.05 'Schibsted Grotesk',sans-serif;letter-spacing:-.03em;color:#fff;text-wrap:balance">Un reseau qui vous soigne, partout en Cote d'Ivoire.</h2>
+  <div style="position:relative;max-width:1180px;margin:0 auto;padding:100px 56px">
+    <div data-reveal="slide-right" style="max-width:620px;margin-bottom:60px">
+      <div style="font:700 13px 'Manrope',sans-serif;letter-spacing:.14em;color:var(--c-red);margin-bottom:16px">RESEAU DE SOINS</div>
+      <h2 style="font:800 50px/1.05 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;color:#fff;text-wrap:balance">Un reseau qui vous soigne, partout en Cote d'Ivoire.</h2>
     </div>
-    <div class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
-      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 52px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">250+</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.7);margin-top:8px">etablissements partenaires</div></div>
-      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 52px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">40</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.7);margin-top:8px">villes couvertes</div></div>
-      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 52px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">48h</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.7);margin-top:8px">delai moyen de remboursement</div></div>
-      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 52px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">98%</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.7);margin-top:8px">de clients satisfaits</div></div>
+    <div data-reveal-stagger class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 56px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">250+</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.72);margin-top:10px">etablissements partenaires</div></div>
+      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 56px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">40</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.72);margin-top:10px">villes couvertes</div></div>
+      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 56px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">48h</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.72);margin-top:10px">delai moyen de remboursement</div></div>
+      <div style="border-left:2px solid var(--c-red-dark);padding-left:22px"><div style="font:900 56px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">98%</div><div style="font:600 14px 'Manrope',sans-serif;color:rgba(255,255,255,.72);margin-top:10px">de clients satisfaits</div></div>
     </div>
-    <div style="margin-top:26px;font:500 12px 'Manrope',sans-serif;color:rgba(255,255,255,.45)">Chiffres donnes a titre d'exemple, a remplacer par vos donnees reelles.</div>
+    <div style="margin-top:30px;font:500 12px 'Manrope',sans-serif;color:rgba(255,255,255,.45)">Chiffres donnes a titre d'exemple, a remplacer par vos donnees reelles.</div>
   </div>
 </section>
 
-<!-- CTA INNOVATION -->
-<section class="container" style="padding-top:88px;padding-bottom:88px">
-  <div style="position:relative;overflow:hidden;border-radius:24px;background:#1a1416;padding:64px 60px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
-    <svg viewBox="0 0 900 300" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6">
-      <g fill="none" stroke-linecap="round"><path d="M400 360 C 620 240 780 180 1000 20" stroke="#C41230" stroke-width="2.5" opacity=".7"/><path d="M440 380 C 660 270 820 210 1020 70" stroke="#E4032C" stroke-width="1.6" opacity=".6"/></g>
-      <path transform="translate(760 30) scale(6)" fill="#C41230" opacity=".4" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/>
+<!-- CTA FINAL -->
+<section class="container" data-reveal="fade" style="padding-top:96px;padding-bottom:96px">
+  <div class="cta-final tilt-3d" style="position:relative;overflow:hidden;border-radius:30px;background:radial-gradient(120% 140% at 80% 0%,#d21732 0%,#C41230 42%,#8a0c20 100%);padding:80px 68px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
+    <div class="float-blob" data-px-mouse="0.6" style="left:-100px;bottom:-100px;width:380px;height:380px;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 60%)"></div>
+    <svg viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+      <g data-px="0.18" fill="none" stroke-linecap="round"><path d="M-40 420 C 360 280 720 200 1280 -40" stroke="#EFAFB4" stroke-width="3" opacity=".45"/><path d="M0 460 C 420 320 780 240 1300 30" stroke="#ffd9dd" stroke-width="1.5" opacity=".35"/></g>
+      <g data-px="0.32" fill="none" stroke-linecap="round"><path d="M80 520 C 480 380 820 300 1300 120" stroke="#fff" stroke-width="1.4" opacity=".28"/></g>
+      <g data-px="0.6"><path transform="translate(1080 60) scale(6)" fill="#fff" opacity=".18" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+      <g data-px="0.45"><path transform="translate(140 240) scale(3.2)" fill="#EFAFB4" opacity=".7" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
     </svg>
-    <div style="position:relative;max-width:560px">
-      <h2 style="font:800 40px/1.06 'Schibsted Grotesk',sans-serif;letter-spacing:-.03em;color:#fff;margin-bottom:16px;text-wrap:balance">L'innovation au service de votre tranquillite.</h2>
-      <p style="font:500 16px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.72)">Application mobile, extranet RH, validation digitale : gerez vos contrats en quelques clics.</p>
+    <div style="position:relative;max-width:640px">
+      <h2 style="font:800 50px/1.05 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;color:#fff;margin-bottom:20px;text-wrap:balance">Un projet d'assurance ? Parlons-en.</h2>
+      <p style="font:500 17px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.88)">Un conseiller NISSI etudie votre situation et vous propose une couverture claire, au juste prix. Reponse sous 24h ouvrees.</p>
     </div>
-    <a class="btn-p" style="position:relative;flex:none" href="innovation.html">Explorer l'Espace Innovation  →</a>
+    <a class="btn-w" style="position:relative;flex:none;padding:19px 32px;font-size:16px" href="contact.html" data-track="cta-devis">Demander un devis  →</a>
   </div>
 </section>
 
@@ -203,7 +268,6 @@
         <a class="foot-lnk" href="index.html">Accueil</a>
         <a class="foot-lnk" href="services.html">Services</a>
         <a class="foot-lnk" href="a-propos.html">A propos</a>
-        <a class="foot-lnk" href="innovation.html">Espace Innovation</a>
         <a class="foot-lnk" href="contact.html">Contact</a>
       </div>
       <div class="footer__col">

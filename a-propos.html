@@ -16,43 +16,45 @@
   <nav class="nnav">
     <a href="index.html" class="nnav__brand"><img src="assets/img/nissi-logo.png" alt="NISSI ASSURANCES"></a>
     <div class="nnav__links">
+      <a class="nav-lnk" href="index.html">Accueil</a>
       <a class="nav-lnk" href="services.html">Services</a>
       <a class="nav-lnk" href="index.html#reseau">Reseau de soins</a>
       <a class="nav-lnk on" href="a-propos.html">A propos</a>
       <a class="nav-lnk" href="contact.html">Contact</a>
     </div>
-    <a class="navbtn" href="contact.html">Demander un devis</a>
+    <a class="navbtn" href="contact.html" data-track="nav-devis">Demander un devis</a>
     <button class="nnav__burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
 </div>
 
-<div class="nnav__mobile" aria-hidden="true">
-  <button class="close" aria-label="Fermer">&times;</button>
-  <a href="services.html">Services</a>
-  <a href="index.html#reseau">Reseau de soins</a>
-  <a href="a-propos.html">A propos</a>
-  <a href="contact.html">Contact</a>
-  <a class="navbtn" href="contact.html">Demander un devis</a>
-</div>
+  <div class="nnav__mobile" aria-hidden="true">
+    <button class="close" aria-label="Fermer">&times;</button>
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Services</a>
+    <a href="index.html#reseau">Reseau de soins</a>
+    <a href="a-propos.html">A propos</a>
+    <a href="contact.html">Contact</a>
+    <a class="navbtn" href="contact.html" data-track="nav-devis-mobile">Demander un devis</a>
+  </div>
 
 <!-- HERO -->
-<header style="position:relative;overflow:hidden;background:radial-gradient(130% 150% at 12% 6%,#d21732 0%,#C41230 46%,#a10f25 100%)">
+<header class="hero" style="position:relative;overflow:hidden;background:radial-gradient(130% 150% at 12% 6%,#d21732 0%,#C41230 46%,#a10f25 100%)">
   <svg viewBox="0 0 1440 480" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
-    <g data-px="0.18" fill="none" stroke-linecap="round"><path d="M620 560 C 960 400 1180 280 1600 -30" stroke="#EFAFB4" stroke-width="3" opacity=".5"/><path d="M700 620 C 1020 460 1240 340 1620 60" stroke="#ffd9dd" stroke-width="1.6" opacity=".45"/></g>
-    <g data-px="0.34" fill="none" stroke-linecap="round"><path d="M560 640 C 940 460 1180 320 1620 -60" stroke="#fff" stroke-width="1.2" opacity=".35"/></g>
-    <g data-px="0.5"><path transform="translate(1288 44) scale(3.8)" fill="#fff" opacity=".9" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.28"><path transform="translate(1140 150) scale(2)" fill="#EFAFB4" opacity=".8" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
-    <g data-px="0.62"><path transform="translate(240 360) scale(1.4)" fill="#ffd9dd" opacity=".65" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.18" data-px-mouse="0.3" fill="none" stroke-linecap="round"><path d="M620 560 C 960 400 1180 280 1600 -30" stroke="#EFAFB4" stroke-width="3" opacity=".5"/><path d="M700 620 C 1020 460 1240 340 1620 60" stroke="#ffd9dd" stroke-width="1.6" opacity=".45"/></g>
+    <g data-px="0.34" data-px-mouse="0.2" fill="none" stroke-linecap="round"><path d="M560 640 C 940 460 1180 320 1620 -60" stroke="#fff" stroke-width="1.2" opacity=".35"/></g>
+    <g data-px="0.5"  data-px-mouse="0.4"><path transform="translate(1288 44) scale(3.8)" fill="#fff" opacity=".9" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.28" data-px-mouse="0.25"><path transform="translate(1140 150) scale(2)" fill="#EFAFB4" opacity=".8" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
+    <g data-px="0.62" data-px-mouse="0.3"><path transform="translate(240 360) scale(1.4)" fill="#ffd9dd" opacity=".65" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g>
   </svg>
-  <div class="container" style="padding-top:80px;padding-bottom:88px">
-    <div class="eyebrow eyebrow--inv"><span class="eyebrow__bar"></span><span class="eyebrow__label">A PROPOS DE NISSI</span></div>
-    <h1 class="h1-mobile" style="font:800 62px/1.01 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;color:#fff;max-width:840px;text-wrap:balance;margin-bottom:22px">Des femmes et des hommes au service de votre serenite.</h1>
-    <p style="max-width:600px;font:500 18px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,.9)">Depuis Abidjan, NISSI ASSURANCES accompagne particuliers et entreprises avec une conviction simple : l'assurance est d'abord une affaire de confiance et de relation humaine.</p>
+  <div class="container" style="padding-top:80px;padding-bottom:88px;position:relative;z-index:10">
+    <div data-reveal="slide-right" class="eyebrow eyebrow--inv"><span class="eyebrow__bar"></span><span class="eyebrow__label">A PROPOS DE NISSI</span></div>
+    <h1 data-reveal="slide-right" class="h1-mobile" style="font:800 62px/1.01 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;color:#fff;max-width:840px;text-wrap:balance;margin-bottom:22px;transition-delay:.1s">Des femmes et des hommes au service de votre serenite.</h1>
+    <p data-reveal="fade" style="max-width:600px;font:500 18px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,.9);transition-delay:.2s">Depuis Abidjan, NISSI ASSURANCES accompagne particuliers et entreprises avec une conviction simple : l'assurance est d'abord une affaire de confiance et de relation humaine.</p>
   </div>
 </header>
 
 <!-- STORY stats -->
-<section class="container" style="padding-top:40px;padding-bottom:8px">
+<section data-reveal="fade" class="container" style="padding-top:40px;padding-bottom:8px">
   <div class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.08);padding:36px 0">
     <div><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;letter-spacing:-.03em;color:var(--c-red)">2015</div><div style="font:600 13.5px 'Manrope',sans-serif;color:#7F7F7F;margin-top:8px">annee de creation</div></div>
     <div><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;letter-spacing:-.03em">5 000+</div><div style="font:600 13.5px 'Manrope',sans-serif;color:#7F7F7F;margin-top:8px">clients accompagnes</div></div>
@@ -63,7 +65,7 @@
 </section>
 
 <!-- DG feature -->
-<section class="container stack-mobile" style="padding-top:72px;padding-bottom:40px;display:grid;grid-template-columns:0.92fr 1.08fr;gap:56px;align-items:stretch">
+<section data-reveal="fade" class="container stack-mobile" style="padding-top:72px;padding-bottom:40px;display:grid;grid-template-columns:0.92fr 1.08fr;gap:56px;align-items:stretch">
   <div style="position:relative">
     <div style="position:absolute;inset:-20px -20px auto auto;width:180px;height:180px;pointer-events:none">
       <svg viewBox="0 0 180 180" style="width:100%;height:100%;overflow:visible"><g data-px="0.4"><path transform="translate(80 16) scale(4.4)" fill="#E4032C" opacity=".85" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g><g data-px="0.7"><path transform="translate(40 70) scale(1.6)" fill="#7F7F7F" opacity=".5" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></g></svg>
@@ -110,7 +112,7 @@
 </section>
 
 <!-- EQUIPE -->
-<section style="background:#f5f3f1;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);margin-top:8px">
+<section data-reveal="fade" style="background:#f5f3f1;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);margin-top:8px">
   <div class="container" style="padding-top:80px;padding-bottom:80px">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:44px;flex-wrap:wrap">
       <div>
@@ -119,7 +121,7 @@
       </div>
       <p style="max-width:320px;font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Conseillers, gestionnaires et medecins conseils reunis autour d'un meme objectif : votre tranquillite.</p>
     </div>
-    <div class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+    <div data-reveal-stagger class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
       <div class="tm">
         <div class="tm-photo photo-placeholder" style="height:300px;border-radius:18px;display:flex;align-items:flex-end;padding:14px;margin-bottom:16px"><span style="font:500 10px ui-monospace,SFMono-Regular,Menlo,monospace;color:#7F7F7F;background:#fff;padding:5px 9px;border-radius:5px">portrait · membre</span></div>
         <h3 style="font:700 19px 'Schibsted Grotesk',sans-serif;margin-bottom:3px">Prenom Nom</h3>

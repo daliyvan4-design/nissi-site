@@ -16,24 +16,26 @@
   <nav class="nnav">
     <a href="index.html" class="nnav__brand"><img src="assets/img/nissi-logo.png" alt="NISSI ASSURANCES"></a>
     <div class="nnav__links">
+      <a class="nav-lnk" href="index.html">Accueil</a>
       <a class="nav-lnk" href="services.html">Services</a>
       <a class="nav-lnk" href="index.html#reseau">Reseau de soins</a>
       <a class="nav-lnk" href="a-propos.html">A propos</a>
       <a class="nav-lnk on" href="contact.html">Contact</a>
     </div>
-    <a class="navbtn" href="contact.html">Demander un devis</a>
+    <a class="navbtn" href="contact.html" data-track="nav-devis">Demander un devis</a>
     <button class="nnav__burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
 </div>
 
-<div class="nnav__mobile" aria-hidden="true">
-  <button class="close" aria-label="Fermer">&times;</button>
-  <a href="services.html">Services</a>
-  <a href="index.html#reseau">Reseau de soins</a>
-  <a href="a-propos.html">A propos</a>
-  <a href="contact.html">Contact</a>
-  <a class="navbtn" href="contact.html">Demander un devis</a>
-</div>
+  <div class="nnav__mobile" aria-hidden="true">
+    <button class="close" aria-label="Fermer">&times;</button>
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Services</a>
+    <a href="index.html#reseau">Reseau de soins</a>
+    <a href="a-propos.html">A propos</a>
+    <a href="contact.html">Contact</a>
+    <a class="navbtn" href="contact.html" data-track="nav-devis-mobile">Demander un devis</a>
+  </div>
 
 <!-- HERO -->
 <header style="position:relative;overflow:hidden">
@@ -53,7 +55,7 @@
 </header>
 
 <!-- SPLIT CARD -->
-<section class="container" style="padding-top:44px;padding-bottom:20px">
+<section data-reveal="fade" class="container" style="padding-top:44px;padding-bottom:20px">
   <div class="stack-mobile" style="display:grid;grid-template-columns:400px 1fr;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(0,0,0,.3);border:1px solid rgba(0,0,0,.08)">
     <div style="position:relative;overflow:hidden;background:radial-gradient(130% 120% at 20% 10%,#d21732 0%,#C41230 48%,#a10f25 100%);padding:44px 40px;color:#fff">
       <svg viewBox="0 0 400 560" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><g fill="none" stroke-linecap="round"><path d="M-40 620 C 140 480 300 400 520 160" stroke="#EFAFB4" stroke-width="2.2" opacity=".4"/></g><path transform="translate(300 30) scale(4)" fill="#e0304c" opacity=".3" d="M12 0C12.7 6.5 17.5 11.3 24 12 17.5 12.7 12.7 17.5 12 24 11.3 17.5 6.5 12.7 0 12 6.5 11.3 11.3 6.5 12 0Z"/></svg>
@@ -68,21 +70,22 @@
         </div>
       </div>
     </div>
-    <form data-contact-form style="padding:44px;background:#fff">
+    <form data-contact-form style="padding:44px;background:#fff" autocomplete="on" novalidate>
       <h2 style="font:800 26px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em;margin-bottom:24px">Ecrivez-nous</h2>
       <div class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Prenom</label><input class="fld" name="prenom" type="text" placeholder="Aya"></div>
-        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Nom</label><input class="fld" name="nom" type="text" placeholder="Kouassi"></div>
+        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Prenom</label><input class="fld" name="prenom" type="text" placeholder="Aya" autocomplete="given-name" required></div>
+        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Nom</label><input class="fld" name="nom" type="text" placeholder="Kouassi" autocomplete="family-name" required></div>
       </div>
       <div class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Email</label><input class="fld" name="email" type="email" placeholder="aya@exemple.ci"></div>
-        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Telephone</label><input class="fld" name="telephone" type="tel" placeholder="+225 07 00 00 00 00"></div>
+        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Email</label><input class="fld" name="email" type="email" placeholder="aya@exemple.ci" autocomplete="email" required></div>
+        <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Telephone</label><input class="fld" name="telephone" type="tel" placeholder="+225 07 00 00 00 00" autocomplete="tel"></div>
       </div>
       <div style="margin-bottom:16px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Sujet</label>
-        <select class="fld" name="sujet"><option>Demande de devis</option><option>Assurances de Personnes &amp; Sante</option><option>Assurances de Biens &amp; Pro</option><option>Declarer un sinistre</option><option>Autre</option></select>
+        <select class="fld" name="sujet" required><option>Demande de devis</option><option>Assurances de Personnes &amp; Sante</option><option>Assurances de Biens &amp; Pro</option><option>Declarer un sinistre</option><option>Autre</option></select>
       </div>
-      <div style="margin-bottom:22px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Votre message</label><textarea class="fld" name="message" rows="4" placeholder="Decrivez votre besoin en quelques mots..."></textarea></div>
-      <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;cursor:pointer"><input name="consent" type="checkbox" style="margin-top:3px;accent-color:#E4032C;width:16px;height:16px"><span style="font:500 13px/1.5 'Manrope',sans-serif;color:#7F7F7F">J'accepte que mes donnees soient utilisees pour traiter ma demande, conformement a la politique de confidentialite.</span></label>
+      <div style="margin-bottom:22px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Votre message</label><textarea class="fld" name="message" rows="4" placeholder="Decrivez votre besoin en quelques mots..." required></textarea></div>
+      <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;cursor:pointer"><input name="consent" type="checkbox" style="margin-top:3px;accent-color:#E4032C;width:16px;height:16px" required><span style="font:500 13px/1.5 'Manrope',sans-serif;color:#7F7F7F">J'accepte que mes donnees soient utilisees pour traiter ma demande, conformement a la politique de confidentialite.</span></label>
+      <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"><label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off"></label></div>
       <button class="btn-p" type="submit" style="width:100%">Envoyer ma demande</button>
       <div data-contact-confirm role="status" aria-live="polite"></div>
     </form>
@@ -90,7 +93,7 @@
 </section>
 
 <!-- QUICK CONTACT + MAP -->
-<section class="container grid-2 stack-mobile" style="padding-top:44px;padding-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch">
+<section data-reveal="fade" class="container grid-2 stack-mobile" style="padding-top:44px;padding-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch">
   <div style="display:flex;flex-direction:column;gap:16px">
     <a href="contact.html" class="qcard" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
       <div style="width:46px;height:46px;flex:none;border-radius:12px;background:#fdeef0;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4032C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 9 6 15 15 15l0-3.5-4-1.5-2 2c-2.5-1.3-4.7-3.5-6-6l2-2-1.5-4L4 5z"/></svg></div>
@@ -156,7 +159,6 @@
         <a class="foot-lnk" href="index.html">Accueil</a>
         <a class="foot-lnk" href="services.html">Services</a>
         <a class="foot-lnk" href="a-propos.html">A propos</a>
-        <a class="foot-lnk" href="innovation.html">Espace Innovation</a>
         <a class="foot-lnk" href="contact.html">Contact</a>
       </div>
       <div class="footer__col">

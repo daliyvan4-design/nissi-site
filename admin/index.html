@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration — NISSI</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23E4032C' d='M12 2 21 7v6c0 5-3.8 8-9 9-5.2-1-9-4-9-9V7z'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#E4032C; --red-dark:#C41230; --ink:#1a1416; --ink-2:#141012;
+    --mute:#524a4d; --mute-2:#7F7F7F; --line:rgba(0,0,0,.09);
+    --bg:#faf8f6; --card:#fff; --green:#1F8A5B; --green-bg:#e4f4ec;
+    --amber:#C77B16; --amber-bg:#fcf3df;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:'Manrope',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:'Schibsted Grotesk',sans-serif;margin:0;letter-spacing:-.02em}
+  a{color:var(--red);text-decoration:none}
+  button{font:inherit;cursor:pointer}
+  input,select,textarea{font:inherit}
+  .hidden{display:none !important}
+
+  /* Login */
+  .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:radial-gradient(120% 100% at 50% 0%,#2a1d20 0%,#141012 50%,#0d0a0b 100%);position:relative;overflow:hidden}
+  .login-card{position:relative;background:#fff;border-radius:22px;padding:42px 38px;width:100%;max-width:420px;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+  .login-card::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,var(--red) 0%,#ff5874 100%);border-radius:22px 22px 0 0}
+  .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+  .login-logo-dot{width:30px;height:30px;border-radius:8px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font:800 14px 'Schibsted Grotesk',sans-serif}
+  .login-logo-name{font:800 18px 'Schibsted Grotesk',sans-serif;letter-spacing:-.01em}
+  .login-title{font:800 26px 'Schibsted Grotesk',sans-serif;letter-spacing:-.025em;margin-bottom:6px}
+  .login-sub{font:500 14px 'Manrope',sans-serif;color:var(--mute);margin-bottom:24px}
+  .fld{width:100%;padding:13px 14px;border:1px solid rgba(0,0,0,.14);border-radius:10px;font:500 14.5px 'Manrope',sans-serif;color:var(--ink);background:#fff;transition:border-color .2s,box-shadow .2s}
+  .fld:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(228,3,44,.12)}
+  .fld-lbl{display:block;font:600 12.5px 'Manrope',sans-serif;color:#3a3236;margin-bottom:7px}
+  .login-err{margin-top:14px;padding:12px 14px;background:#fdeef0;color:var(--red-dark);border-radius:10px;font:600 13.5px 'Manrope',sans-serif;display:none}
+  .login-err.show{display:block}
+  .login-foot{margin-top:18px;font:500 12.5px 'Manrope',sans-serif;color:var(--mute-2);text-align:center}
+
+  /* Dashboard */
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .topbar-left{display:flex;align-items:center;gap:14px}
+  .topbar-logo{width:34px;height:34px;border-radius:9px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font:800 14px 'Schibsted Grotesk',sans-serif}
+  .topbar-title{font:800 17px 'Schibsted Grotesk',sans-serif;letter-spacing:-.01em}
+  .topbar-tabs{display:flex;gap:6px;background:rgba(0,0,0,.04);padding:4px;border-radius:100px}
+  .tab{padding:8px 16px;border-radius:100px;font:600 13px 'Manrope',sans-serif;color:var(--mute);background:transparent;border:none;transition:background .2s,color .2s}
+  .tab.on{background:#fff;color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+  .topbar-right{display:flex;align-items:center;gap:12px;font:500 13px 'Manrope',sans-serif;color:var(--mute)}
+  .pill{background:var(--red);color:#fff;padding:8px 16px;border-radius:100px;font:600 13px 'Manrope',sans-serif;border:none}
+  .ghost{background:transparent;border:1px solid rgba(0,0,0,.14);padding:8px 14px;border-radius:100px;font:600 13px 'Manrope',sans-serif;color:var(--ink);transition:border-color .2s,color .2s}
+  .ghost:hover{border-color:var(--red);color:var(--red)}
+
+  .container{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;position:relative;overflow:hidden}
+  .kpi::after{content:"";position:absolute;right:-30px;top:-30px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(228,3,44,.07),transparent 70%)}
+  .kpi-l{font:700 11.5px 'Manrope',sans-serif;letter-spacing:.1em;color:var(--mute-2);text-transform:uppercase;margin-bottom:10px}
+  .kpi-v{font:800 32px/1 'Schibsted Grotesk',sans-serif;letter-spacing:-.025em}
+  .kpi-d{margin-top:6px;font:500 12px 'Manrope',sans-serif;color:var(--mute-2)}
+
+  .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+  .card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+  .card-title{font:700 16px 'Schibsted Grotesk',sans-serif;letter-spacing:-.01em}
+  .card-sub{font:500 12.5px 'Manrope',sans-serif;color:var(--mute-2)}
+
+  /* Chart */
+  .chart{height:170px;display:flex;align-items:flex-end;gap:6px;padding:8px 0 0}
+  .chart-bar{flex:1;background:linear-gradient(180deg,var(--red) 0%,var(--red-dark) 100%);border-radius:6px 6px 0 0;min-height:3px;transition:opacity .2s;position:relative;cursor:default}
+  .chart-bar:hover{opacity:.8}
+  .chart-bar[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:100%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;font:600 11px 'Manrope',sans-serif;white-space:nowrap;margin-bottom:6px}
+  .chart-x{display:flex;gap:6px;margin-top:8px}
+  .chart-x span{flex:1;text-align:center;font:500 10.5px 'Manrope',sans-serif;color:var(--mute-2)}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:10px 0;font:500 13.5px 'Manrope',sans-serif;border-bottom:1px solid var(--line)}
+  th{font:700 11.5px 'Manrope',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mute-2);font-weight:700}
+  tr:last-child td{border-bottom:none}
+  td.num{font:600 13.5px 'JetBrains Mono',monospace;text-align:right;color:var(--ink)}
+  td.k{font:600 13.5px 'JetBrains Mono',monospace}
+
+  .empty{padding:30px 10px;text-align:center;color:var(--mute-2);font:500 13.5px 'Manrope',sans-serif}
+
+  /* Messages list */
+  .msg{padding:18px 0;border-bottom:1px solid var(--line)}
+  .msg:last-child{border-bottom:none}
+  .msg-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .msg-name{font:700 15px 'Schibsted Grotesk',sans-serif;letter-spacing:-.01em}
+  .badge{display:inline-block;padding:3px 10px;border-radius:100px;font:600 11px 'Manrope',sans-serif;background:#fdeef0;color:var(--red-dark)}
+  .badge.ok{background:var(--green-bg);color:var(--green)}
+  .msg-meta{font:500 12.5px 'Manrope',sans-serif;color:var(--mute-2);margin-bottom:8px;display:flex;gap:14px;flex-wrap:wrap}
+  .msg-body{font:500 14px/1.55 'Manrope',sans-serif;color:var(--ink);background:var(--bg);padding:12px 14px;border-radius:10px;white-space:pre-wrap}
+
+  /* Recent events list */
+  .ev{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font:500 13px 'Manrope',sans-serif}
+  .ev:last-child{border-bottom:none}
+  .ev-d{font:600 11.5px 'JetBrains Mono',monospace;color:var(--mute-2);min-width:70px}
+  .ev-t{font-weight:700;color:var(--ink);min-width:80px}
+  .ev-p{flex:1;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* Loader */
+  .loader{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--mute-2);font:500 13.5px 'Manrope',sans-serif}
+  .spin{width:16px;height:16px;border:2px solid rgba(0,0,0,.12);border-top-color:var(--red);border-radius:50%;margin-right:10px;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media (max-width:980px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .container{padding:20px 16px 40px}
+    .kpis{grid-template-columns:1fr 1fr}
+    .topbar{padding:12px 16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<section id="loginView" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-dot">N</div>
+      <div class="login-logo-name">NISSI · Console</div>
+    </div>
+    <h1 class="login-title">Espace administrateur</h1>
+    <p class="login-sub">Connectez-vous pour acceder aux demandes de devis et aux statistiques du site.</p>
+    <form id="loginForm" autocomplete="on">
+      <div style="margin-bottom:14px">
+        <label class="fld-lbl" for="li-user">Identifiant</label>
+        <input class="fld" type="text" id="li-user" name="username" autocomplete="username" required>
+      </div>
+      <div style="margin-bottom:18px">
+        <label class="fld-lbl" for="li-pass">Mot de passe</label>
+        <input class="fld" type="password" id="li-pass" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="pill" style="width:100%">Se connecter</button>
+      <div id="loginErr" class="login-err" role="alert"></div>
+    </form>
+    <div class="login-foot">Acces reserve a l'equipe NISSI.</div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashView" class="hidden">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">N</div>
+      <div>
+        <div class="topbar-title">NISSI · Console</div>
+        <div style="font:500 12px 'Manrope',sans-serif;color:var(--mute-2)" id="helloUser">Connecte</div>
+      </div>
+    </div>
+    <div class="topbar-tabs" role="tablist">
+      <button class="tab on" data-tab="analytics">Vue d'ensemble</button>
+      <button class="tab" data-tab="messages">Demandes de devis</button>
+    </div>
+    <div class="topbar-right">
+      <button class="ghost" id="refreshBtn">Rafraichir</button>
+      <button class="ghost" id="logoutBtn">Deconnexion</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- ANALYTICS -->
+    <div id="tab-analytics">
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-l">Visites (periode)</div><div class="kpi-v" id="kpi-pv">—</div><div class="kpi-d" id="kpi-pv-d">&nbsp;</div></div>
+        <div class="kpi"><div class="kpi-l">Visiteurs uniques</div><div class="kpi-v" id="kpi-uv">—</div><div class="kpi-d" id="kpi-uv-d">&nbsp;</div></div>
+        <div class="kpi"><div class="kpi-l">Clics CTA</div><div class="kpi-v" id="kpi-ck">—</div><div class="kpi-d" id="kpi-ck-d">&nbsp;</div></div>
+        <div class="kpi"><div class="kpi-l">Conversions</div><div class="kpi-v" id="kpi-cv">—</div><div class="kpi-d" id="kpi-cv-d">&nbsp;</div></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-h">
+            <div>
+              <div class="card-title">Visites par jour</div>
+              <div class="card-sub" id="chart-sub">7 derniers jours</div>
+            </div>
+          </div>
+          <div class="chart" id="chart"></div>
+          <div class="chart-x" id="chart-x"></div>
+        </div>
+        <div class="card">
+          <div class="card-h">
+            <div class="card-title">Top pages</div>
+          </div>
+          <div id="top-pages"><div class="loader"><div class="spin"></div>Chargement…</div></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-h">
+            <div class="card-title">CTA les plus cliques</div>
+          </div>
+          <div id="top-targets"><div class="loader"><div class="spin"></div>Chargement…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-h">
+            <div class="card-title">Sources de trafic</div>
+          </div>
+          <div id="top-refs"><div class="loader"><div class="spin"></div>Chargement…</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <div class="card-title">Activite recente</div>
+          <div class="card-sub">25 derniers evenements</div>
+        </div>
+        <div id="recent"><div class="loader"><div class="spin"></div>Chargement…</div></div>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="tab-messages" class="hidden">
+      <div class="card">
+        <div class="card-h">
+          <div>
+            <div class="card-title">Demandes de devis</div>
+            <div class="card-sub" id="msg-sub">Chargement…</div>
+          </div>
+        </div>
+        <div id="messages"><div class="loader"><div class="spin"></div>Chargement des messages…</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="admin.js"></script>
+</body>
+</html>
