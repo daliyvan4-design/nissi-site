@@ -33,11 +33,11 @@ Aminata`,
 };
 
 const config = {
-  logoWhiteUrl: 'file:///Users/macbookair/Desktop/nissi/nissi-logo-white.png',
+  logoWhiteUrl: 'https://nissi-site.vercel.app/assets/img/nissi-logo-white.png',
   siteUrl: 'https://nissi-site.vercel.app',
   adminEmail: 'contact@nissi-assurances.ci',
   phone: '+225 27 22 00 00 00',
-  address: 'Abidjan, Côte d\'Ivoire'
+  address: "Abidjan, Cote d'Ivoire"
 };
 
 const adminHtml = renderAdminEmail(example, config);
