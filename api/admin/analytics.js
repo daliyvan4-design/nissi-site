@@ -26,13 +26,15 @@ export default async function handler(req, res) {
   const cutoff = Date.now() - days * DAY_MS;
 
   try {
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
     const events = [];
     let cursor;
     do {
       const r = await list({ prefix: 'analytics/', cursor, limit: 500 });
       for (const blob of r.blobs) {
         try {
-          const f = await fetch(blob.url);
+          // Les blobs prives necessitent le token pour etre lus
+          const f = await fetch(blob.url, { headers: { 'Authorization': 'Bearer ' + token } });
           if (!f.ok) continue;
           const t = await f.text();
           const obj = JSON.parse(t);

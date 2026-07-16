@@ -21,9 +21,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
     const out = [];
     let cursor;
-    // list() gere la pagination automatiquement
     do {
       const res2 = await list({
         prefix: 'contact-messages/',
@@ -31,9 +31,9 @@ export default async function handler(req, res) {
         limit: 200
       });
       for (const blob of res2.blobs) {
-        // le pathname est /contact-messages/... — on lit le contenu
         try {
-          const r = await fetch(blob.url);
+          // blob.url necessite le token pour les blobs prives
+          const r = await fetch(blob.url, { headers: { 'Authorization': 'Bearer ' + token } });
           if (!r.ok) continue;
           const text = await r.text();
           const obj = JSON.parse(text);
