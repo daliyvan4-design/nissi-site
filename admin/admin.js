@@ -78,7 +78,7 @@
 
   // -------- Dashboard data --------
   function fmtNum(n){
-    if (n == null) return '—';
+    if (n == null) return '-';
     if (n >= 1000) return (n/1000).toFixed(n >= 10000 ? 0 : 1) + 'k';
     return String(n);
   }
@@ -211,7 +211,7 @@
           html += '<div class="msg">'
                 +   '<div class="msg-h">'
                 +     '<div class="msg-name">' + escapeHtml(m.prenom || '') + ' ' + escapeHtml(m.nom || '') + '</div>'
-                +     '<span class="badge">' + escapeHtml(m.sujet || '—') + '</span>'
+                +     '<span class="badge">' + escapeHtml(m.sujet || '-') + '</span>'
                 +   '</div>'
                 +   '<div class="msg-meta">'
                 +     '<span>✉ ' + escapeHtml(m.email || '') + '</span>'

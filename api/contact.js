@@ -163,7 +163,7 @@ export default async function handler(req, res) {
         await resend.emails.send({
           from,
           to: [record.email],
-          subject: 'Nous avons bien reçu votre message — NISSI Assurances',
+          subject: 'Nous avons bien recu votre message - NISSI Assurances',
           html: renderClientEmail(record, emailConfig),
           text: renderClientEmailPlain(record)
         });

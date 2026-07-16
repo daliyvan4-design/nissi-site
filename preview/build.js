@@ -58,7 +58,7 @@ const previewHtml = `<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>Preview emails — NISSI Assurances</title>
+<title>Preview emails - NISSI Assurances</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -98,7 +98,7 @@ const previewHtml = `<!doctype html>
 <body>
 
 <div class="top">
-  <h1>Preview emails — NISSI Assurances</h1>
+  <h1>Preview emails - NISSI Assurances</h1>
   <p>Visualisation des deux emails déclenchés par le formulaire de contact</p>
   <div class="meta">
     <span>Notification admin</span>
@@ -145,8 +145,8 @@ const previewHtml = `<!doctype html>
   </div>
 
   <div class="info">
-    <b>À propos de cette preview</b> — Les deux emails ci-dessus sont générés en direct par <code>lib/email-templates.js</code> avec les mêmes fonctions que celles appelées par l'API <code>api/contact.js</code>. Les couleurs, la typographie et les boutons sont alignés sur le site public. <br><br>
-    <b>Pour tester le rendu réel</b>, remplissez le formulaire sur <code>https://nissi-site.vercel.app/contact.html</code> — vous recevrez un email admin et le visiteur recevra l'accusé de réception.
+    <b>A propos de cette preview</b> - Les deux emails ci-dessus sont generes en direct par <code>lib/email-templates.js</code> avec les memes fonctions que celles appelees par l'API <code>api/contact.js</code>. Les couleurs, la typographie et les boutons sont alignes sur le site public. <br><br>
+    <b>Pour tester le rendu reel</b>, remplissez le formulaire sur <code>https://nissi-site.vercel.app/contact.html</code> - vous recevrez un email admin et le visiteur recevra l'accuse de reception.
   </div>
 </div>
 

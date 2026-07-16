@@ -1,5 +1,5 @@
 /* ===========================================================
-   NISSI Assurances — main.css
+   NISSI Assurances - main.css
    Reset, layout, parallaxe, reveals, animations immersives
    =========================================================== */
 
@@ -331,6 +331,7 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .nnav__links{display:none}
   .navbtn{display:none}
   .nnav__burger{display:flex}
+  .nnav__brand img{height:30px}
   .footer{padding:48px 22px 28px}
   .footer__cols{grid-template-columns:1fr 1fr;gap:28px}
   .footer__col--brand{grid-column:1/-1}
@@ -343,9 +344,127 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .grid-2-cols-asym{grid-template-columns:1fr!important}
   .pad-block-mobile{padding-left:22px;padding-right:22px}
   .pad-block-mobile.container{padding-left:22px;padding-right:22px}
+
+  /* Hero inner padding override */
+  .hero-inner{padding:48px 22px 110px!important;min-height:calc(100vh - 80px)!important}
+  .a-propos-hero .container{padding-top:54px!important;padding-bottom:64px!important}
+
+  /* Hero stats now stacks 1 col with separators */
+  .hero-stats{grid-template-columns:1fr!important;gap:18px!important;padding-top:28px!important}
+  .hero-stats > div{border-left:none!important;padding-left:0!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.15)}
+  .hero-stats > div:first-child{padding-top:0;border-top:none}
+  .hero-stats > div > div:first-child{font-size:38px!important}
+
+  /* Reseau stats stacks 1 col */
+  .reseau-stats{grid-template-columns:1fr 1fr!important;gap:24px!important}
+  .reseau-stats > div{padding-left:0!important;border-left:none!important;padding-top:14px;border-top:2px solid var(--c-red-dark)}
+
+  /* CTA block padding tighter */
+  .cta-block{padding:54px 28px!important;gap:28px!important}
+
+  /* Contact split card stacks with red panel on top */
+  .contact-split{grid-template-columns:1fr!important}
+  .contact-split > div:first-child{padding:34px 28px!important}
+  .contact-split > form{padding:30px 24px!important}
+  .contact-split > form .grid-2{grid-template-columns:1fr!important;gap:12px!important}
+
+  /* Stats 4 col on a-propos */
+  [data-reveal-stagger].grid.grid-4,
+  .grid-4{grid-template-columns:1fr 1fr!important}
+
+  /* DG feature & split sections stack */
+  .stack-mobile[style*="grid-template-columns:0.92fr"]{grid-template-columns:1fr!important;gap:32px!important}
+
+  /* Photo heights on mobile */
+  [style*="height:560px"]{height:380px!important}
+  [style*="height:520px"]{height:340px!important}
+  [style*="height:480px"]{height:320px!important}
+  [style*="height:400px"]{height:280px!important}
+  [style*="height:300px"]{height:240px!important}
+  [style*="height:340px"]{min-height:240px!important}
+
+  /* Form subject select + button full width */
+  .fld{font-size:15px!important}
+  .btn-p{font-size:14.5px!important}
+
+  /* Eyebrow / buttons smaller */
+  .eyebrow__label{font-size:11.5px!important}
+  .nav-lnk{font-size:12.5px!important}
+
+  /* Marquee strip smaller text */
+  .marquee__track span{font-size:15px!important}
+
+  /* Lists inside cards wrap nicely */
+  details.faq summary{font-size:16px!important;padding:18px 4px!important}
+
+  /* Footer brand col goes top single */
+  .footer__col--brand p{font-size:13.5px!important}
+}
+
+@media (max-width:600px){
+  .h1-mobile{font-size:36px!important;line-height:1.05!important;letter-spacing:-.03em!important}
+  .section-title{font-size:28px!important}
+  .cta-block{padding:48px 24px!important;border-radius:22px!important}
+  .cta-block h2{font-size:30px!important;line-height:1.1!important}
+  .cta-block p{font-size:15px!important}
+  .btn-p,.btn-g,.btn-o,.btn-w{padding:14px 22px!important;font-size:14.5px!important}
+  .btn-p{width:auto!important}
+  .footer{padding:42px 22px 24px!important}
+  .footer__cols{gap:24px!important}
+  .footer__bottom{gap:14px!important}
+  .footer__copy{font-size:12px!important}
+  .fld{padding:13px 14px!important;font-size:15px!important}
 }
 
 @media (max-width:480px){
-  .footer__cols{grid-template-columns:1fr}
+  :root{--pad-x:18px}
+  .footer__cols{grid-template-columns:1fr!important}
   .footer__col--brand{grid-column:auto}
+  .hero-inner{padding:42px 18px 100px!important}
+  .a-propos-hero .container{padding-top:48px!important;padding-bottom:52px!important}
+  .h1-mobile{font-size:32px!important;line-height:1.1!important}
+  .section-title{font-size:26px!important}
+  .reseau-stats{grid-template-columns:1fr!important;gap:20px!important}
+  .reseau-stats > div > div:first-child{font-size:44px!important}
+  .hero-stats > div > div:first-child{font-size:36px!important}
+  .cta-block{padding:42px 20px!important;border-radius:20px!important}
+  .cta-block h2{font-size:26px!important;margin-bottom:14px!important}
+  .contact-split > div:first-child{padding:28px 22px!important}
+  .contact-split > form{padding:26px 20px!important}
+  details.faq summary{font-size:15px!important;gap:14px!important}
+  .form-grid-2{grid-template-columns:1fr!important}
+  /* Ensure form selects / submit full width but readable */
+  .fld{font-size:16px!important}
+  /* Process 3-col stack */
+  [data-reveal-stagger].grid.grid-3 > div,
+  .grid-3 > div{padding:24px!important}
+  /* Reduce fixed heights further */
+  [style*="height:560px"]{height:320px!important}
+  [style*="height:520px"]{height:300px!important}
+  [style*="height:480px"]{height:280px!important}
+  [style*="height:400px"]{height:260px!important}
+  [style*="height:300px"]{height:220px!important}
+  /* Better tap target spacing */
+  .nnav__brand img{height:28px}
+  .nnav__burger{width:42px;height:42px}
+  .nnav__mobile{padding:80px 26px 36px!important}
+  .nnav__mobile a{font-size:22px!important}
+  /* Tighter line-height on stats numbers */
+  .hero-stats > div > div:last-child{font-size:11.5px!important}
+}
+
+@media (max-width:360px){
+  :root{--pad-x:14px}
+  .h1-mobile{font-size:29px!important}
+  .section-title{font-size:23px!important}
+  .hero-inner{padding:36px 14px 96px!important}
+  .cta-block{padding:36px 18px!important}
+  .contact-split > form{padding:24px 16px!important}
+}
+
+/* Tablet portrait — faire respirer un peu plus */
+@media (min-width:821px) and (max-width:1024px){
+  .hero-inner{padding:60px 32px 130px!important}
+  .reseau-stats{gap:18px!important}
+  .reseau-stats > div > div:first-child{font-size:48px!important}
 }

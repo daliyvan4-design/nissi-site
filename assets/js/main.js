@@ -1,5 +1,5 @@
 /* ===========================================================
-   NISSI Assurances — main.js
+   NISSI Assurances - main.js
    Moteur parallaxe immersif + reveals + analytics tracking
    =========================================================== */
 (function(){
@@ -70,7 +70,7 @@
   }
 
   // ====================================================
-  // 2) Parallaxe souris (data-px-mouse) — effet profondeur hero
+  // 2) Parallaxe souris (data-px-mouse) - effet profondeur hero
   // ====================================================
   function initMouseParallax(){
     if(reducedMotion()) return;
@@ -266,7 +266,7 @@
         invalid.push('Consentement');
         consent.parentNode.style.color = '#E4032C';
       }
-      // Honeypot (anti-spam) — champ cache doit rester vide
+      // Honeypot (anti-spam) - champ cache doit rester vide
       var hp = form.querySelector('[name="_hp"]');
       if(hp && hp.value){
         // Simule succes silencieux pour ne pas guider le bot
