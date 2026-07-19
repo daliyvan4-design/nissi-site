@@ -10,8 +10,12 @@ html,body{margin:0;padding:0}
 body{
   background:#fff;font-family:'Manrope',system-ui,sans-serif;color:#1a1416;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overflow-x:hidden;
 }
+/* Empeche tout defilement horizontal cause par les decors en absolu.
+   'clip' est prefere a 'hidden' : il ne cree pas de conteneur de defilement
+   et ne casse donc pas le menu sticky. */
+html,body{overflow-x:hidden}
+@supports (overflow-x:clip){html,body{overflow-x:clip}}
 img{display:block;max-width:100%;height:auto}
 a{color:#E4032C;text-decoration:none;transition:color .2s}
 a:hover{color:#C41230}
@@ -51,7 +55,7 @@ input,textarea,select,button{font-family:inherit}
 /* Honor user reduced motion */
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-  [data-px],[data-px-mouse],[data-reveal]{transform:none!important;opacity:1!important}
+  [data-px],[data-px-mouse],[data-reveal],[data-txt-reveal] .tr-c{transform:none!important;opacity:1!important}
 }
 
 /* ============== Layout primitives ============== */
@@ -276,6 +280,13 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 [data-reveal="blur"]{transform:translate3d(0,20px,0);filter:blur(6px)}
 [data-reveal].is-in{opacity:1;transform:none;clip-path:inset(0 0 0 0);filter:none}
 
+/* Les entrees laterales decalent le bloc de 40px avant son apparition. Tant que
+   l'ecran est assez large, ce decalage tient dans les marges ; en dessous il
+   sortirait de l'ecran, donc on bascule sur une entree verticale. */
+@media (max-width:1200px){
+  [data-reveal="slide-left"],[data-reveal="slide-right"]{transform:translate3d(0,30px,0)}
+}
+
 [data-reveal-stagger] > *{opacity:0;transform:translate3d(0,24px,0);transition:opacity .8s var(--easing-soft),transform .8s var(--easing-soft)}
 [data-reveal-stagger].is-in > *{opacity:1;transform:none}
 [data-reveal-stagger].is-in > *:nth-child(1){transition-delay:.05s}
@@ -286,9 +297,21 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 [data-reveal-stagger].is-in > *:nth-child(6){transition-delay:.4s}
 
 /* ============== Text reveal (letter by letter) ============== */
-.txt-reveal{display:inline-block;overflow:hidden;vertical-align:bottom}
-.txt-reveal > span{display:inline-block;transform:translate3d(0,110%,0);transition:transform .9s var(--easing-snap);transition-delay:var(--d,0s)}
-.txt-reveal.is-in > span{transform:translate3d(0,0,0)}
+/* Le masque est applique mot par mot (.tr-w) et non sur tout le titre :
+   le texte garde ainsi son retour a la ligne naturel sur petits ecrans. */
+.txt-reveal,[data-txt-reveal]{overflow-wrap:break-word}
+.txt-reveal .tr-w,[data-txt-reveal] .tr-w{
+  display:inline-block;overflow:hidden;vertical-align:bottom;
+  /* marge pour ne pas rogner les jambages (p, g, y) */
+  padding-bottom:.14em;margin-bottom:-.14em;
+}
+.txt-reveal .tr-c,[data-txt-reveal] .tr-c{
+  display:inline-block;
+  transform:translate3d(0,110%,0);
+  transition:transform .9s var(--easing-snap);
+  transition-delay:var(--d,0s);
+}
+.txt-reveal.is-in .tr-c,[data-txt-reveal].is-in .tr-c{transform:translate3d(0,0,0)}
 
 /* ============== Marquee strip ============== */
 .marquee{
@@ -326,6 +349,7 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 
 @media (max-width:820px){
   :root{--pad-x:22px}
+
   .nnav-wrap{padding:14px 16px}
   .nnav{padding:8px 8px 8px 18px!important;gap:14px!important}
   .nnav__links{display:none}
@@ -339,7 +363,10 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .section-title{font-size:32px!important}
   .h1-mobile{font-size:42px!important;line-height:1.02!important}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;gap:16px!important}
-  .stack-mobile{display:block}
+  /* Ces sections portent 'display:grid' en style inline dans le HTML, ce qui
+     l'emporte sur une simple regle de classe : d'ou le !important, sinon elles
+     restent en 2 colonnes sur telephone. */
+  .stack-mobile{display:grid!important;grid-template-columns:1fr!important;gap:32px!important}
   .stack-mobile .sticky-mobile{position:static!important}
   .grid-2-cols-asym{grid-template-columns:1fr!important}
   .pad-block-mobile{padding-left:22px;padding-right:22px}
@@ -372,8 +399,10 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   [data-reveal-stagger].grid.grid-4,
   .grid-4{grid-template-columns:1fr 1fr!important}
 
-  /* DG feature & split sections stack */
-  .stack-mobile[style*="grid-template-columns:0.92fr"]{grid-template-columns:1fr!important;gap:32px!important}
+  /* (le passage en 1 colonne est desormais gere par .stack-mobile ci-dessus) */
+
+  /* Decors en coin : cales hors cadre sur grand ecran, ramenes dans l'ecran sur mobile */
+  [style*="inset:-20px -20px auto auto"]{inset:-8px 0 auto auto!important}
 
   /* Photo heights on mobile */
   [style*="height:560px"]{height:380px!important}

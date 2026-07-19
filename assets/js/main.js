@@ -140,26 +140,63 @@
   // ====================================================
   // 4) Text reveal letter by letter
   // ====================================================
+  // Decoupe en mots (chaque mot = un masque inline-block), puis en lettres a
+  // l'interieur du mot. Les espaces restent de vrais espaces et les <br> sont
+  // conservees, sinon le titre devient une seule ligne insecable qui deborde
+  // de l'ecran sur telephone.
+  function splitForReveal(el){
+    var nodes = Array.prototype.slice.call(el.childNodes);
+    var frag = document.createDocumentFragment();
+    var i = 0;
+
+    nodes.forEach(function(node){
+      if(node.nodeType === 1 && node.tagName === 'BR'){
+        frag.appendChild(node.cloneNode(false));
+        return;
+      }
+      var text = node.textContent || '';
+      // On garde les espaces comme separateurs pour permettre le retour a la ligne
+      text.split(/(\s+)/).forEach(function(part){
+        if(!part) return;
+        if(/^\s+$/.test(part)){
+          frag.appendChild(document.createTextNode(' '));
+          return;
+        }
+        var word = document.createElement('span');
+        word.className = 'tr-w';
+        part.split('').forEach(function(ch){
+          var c = document.createElement('span');
+          c.className = 'tr-c';
+          c.textContent = ch;
+          c.style.setProperty('--d', (i * 0.018) + 's');
+          i++;
+          word.appendChild(c);
+        });
+        frag.appendChild(word);
+      });
+    });
+
+    el.textContent = '';
+    el.appendChild(frag);
+  }
+
   function initTextReveal(){
+    var targets = document.querySelectorAll('[data-txt-reveal]');
+    if(!targets.length) return;
+    // Sans IntersectionObserver on laisse le texte tel quel, deja lisible
     if(!('IntersectionObserver' in window)) return;
+
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          var el = entry.target;
-          var chars = (el.textContent || '').split('');
-          el.textContent = '';
-          chars.forEach(function(ch, i){
-            var span = document.createElement('span');
-            span.textContent = ch === ' ' ? '\u00A0' : ch;
-            span.style.setProperty('--d', (i * 0.018) + 's');
-            el.appendChild(span);
-          });
-          requestAnimationFrame(function(){el.classList.add('is-in')});
-          io.unobserve(el);
-        }
+        if(!entry.isIntersecting) return;
+        var el = entry.target;
+        io.unobserve(el);
+        splitForReveal(el);
+        requestAnimationFrame(function(){el.classList.add('is-in')});
       });
     }, {threshold:0.4});
-    document.querySelectorAll('[data-txt-reveal]').forEach(function(el){io.observe(el)});
+
+    Array.prototype.forEach.call(targets, function(el){io.observe(el)});
   }
 
   // ====================================================
