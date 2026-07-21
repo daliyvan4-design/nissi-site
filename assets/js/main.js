@@ -269,6 +269,67 @@
     var noms = (scene.getAttribute('data-slides') || '').split(',').filter(Boolean);
     if(lecteurs.length < 2 || noms.length < 2) return;
 
+    var vv = scene.getAttribute('data-v');
+    var sfx = vv ? '?v=' + vv : '';
+
+    // Si assets/video/hero.mp4 existe, cette video unique remplace le
+    // diaporama : elle occupe le hero et tourne en boucle. Sinon on garde
+    // l'enchainement des 6 videos. Rien a modifier ici pour basculer.
+    var sonde = document.createElement('video');
+    sonde.preload = 'metadata';
+    sonde.muted = true;
+    sonde.addEventListener('loadedmetadata', function(){ modeVideoUnique(); });
+    sonde.addEventListener('error', function(){ modeDiaporama(); });
+    sonde.src = 'assets/video/hero.mp4' + sfx;
+
+    var RALENTI = 0.5;        // 50% de la vitesse : 14s de video durent 28s
+
+    function modeVideoUnique(){
+      var v = lecteurs[0];
+      if(v.getAttribute('src') !== 'assets/video/hero.mp4' + sfx){
+        v.setAttribute('src', 'assets/video/hero.mp4' + sfx);
+        v.setAttribute('poster', 'assets/video/hero.jpg' + sfx);
+        v.load();
+      }
+      v.loop = true;
+      v.classList.add('is-on');
+      v.playbackRate = RALENTI;
+      // certains navigateurs remettent la vitesse a 1 quand la source est prete
+      v.addEventListener('loadeddata', function(){ v.playbackRate = RALENTI; });
+      v.addEventListener('play', function(){ v.playbackRate = RALENTI; });
+      var p = v.play();
+      if(p && p.catch) p.catch(function(){});
+      for(var i=1;i<lecteurs.length;i++){          // le second lecteur ne sert plus
+        lecteurs[i].removeAttribute('src');
+        lecteurs[i].parentNode.removeChild(lecteurs[i]);
+      }
+      // on suspend la lecture hors ecran ou onglet en arriere-plan
+      veilleur(function(){ var q=v.play(); if(q&&q.catch) q.catch(function(){}); },
+               function(){ v.pause(); });
+    }
+
+    // Met en pause quand le hero sort de l'ecran ou que l'onglet passe en
+    // arriere-plan ; partage par les deux modes.
+    function veilleur(reprendre, suspendre){
+      var hero = document.querySelector('.hero'), visible = true, vuUneFois = false;
+      if('IntersectionObserver' in window && hero){
+        new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(!e.isIntersecting && !vuUneFois) return;
+            if(e.isIntersecting) vuUneFois = true;
+            visible = e.isIntersecting;
+            if(visible && !document.hidden) reprendre(); else suspendre();
+          });
+        }, {threshold:0.15}).observe(hero);
+      }
+      document.addEventListener('visibilitychange', function(){
+        if(document.hidden) suspendre();
+        else if(visible) reprendre();
+      });
+    }
+
+    function modeDiaporama(){
+
     var DUREE = 3500;
     var idx = 0;          // video affichee
     var actif = 0;        // lecteur affiche (0 ou 1)
@@ -322,28 +383,11 @@
       Array.prototype.forEach.call(lecteurs, function(v){ v.pause(); });
     }
 
-    // Rien ne tourne quand le hero est hors de vue ou l'onglet en arriere-plan
-    var hero = document.querySelector('.hero'), visible = true, vuUneFois = false;
-    if('IntersectionObserver' in window && hero){
-      new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          // Tant que le hero n'a jamais ete signale visible, on ignore un
-          // "hors ecran" : une premiere mesure erronee figerait le diaporama.
-          if(!e.isIntersecting && !vuUneFois) return;
-          if(e.isIntersecting) vuUneFois = true;
-          visible = e.isIntersecting;
-          if(visible && !document.hidden){ lire(lecteurs[actif]); demarrer(); }
-          else arreter();
-        });
-      }, {threshold:0.15}).observe(hero);
-    }
-    document.addEventListener('visibilitychange', function(){
-      if(document.hidden) arreter();
-      else if(visible){ lire(lecteurs[actif]); demarrer(); }
-    });
+    veilleur(function(){ lire(lecteurs[actif]); demarrer(); }, arreter);
 
     lire(lecteurs[0]);
     demarrer();
+    }
   }
 
   // ====================================================
