@@ -63,8 +63,8 @@ const previewHtml = `<!doctype html>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --red:#E4032C;
-    --red-dark:#C41230;
+    --red:#E4030B;
+    --red-dark:#C41218;
     --bg:#f4f1ef;
     --ink:#1a1416;
   }
