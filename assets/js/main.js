@@ -5,6 +5,10 @@
 (function(){
   'use strict';
 
+  // Marque la page comme animable. Les etats "masque" du CSS y sont
+  // conditionnes : sans JavaScript, rien ne disparait.
+  document.documentElement.classList.add('js-anim');
+
   // ---------- Helpers ----------
   function clamp(v, a, b){return Math.max(a, Math.min(b, v))}
   function rafThrottle(fn){
@@ -192,11 +196,109 @@
         var el = entry.target;
         io.unobserve(el);
         splitForReveal(el);
-        requestAnimationFrame(function(){el.classList.add('is-in')});
+        void el.offsetWidth;          // meme raison que dans initHeadingAnim()
+        el.classList.add('is-in');
       });
     }, {threshold:0.4});
 
     Array.prototype.forEach.call(targets, function(el){io.observe(el)});
+  }
+
+  // ====================================================
+  // 4b) Animation des titres de section
+  // Le trait de l'intitule se trace, ses lettres montent, puis le titre
+  // se devoile mot par mot. Reutilise splitForReveal() ci-dessus.
+  // ====================================================
+  function initHeadingAnim(){
+    var heads = document.querySelectorAll('.eyebrow, .section-title, [data-anim-title]');
+    if(!heads.length) return;
+
+    // Sans IntersectionObserver, tout reste visible tel quel (aucune animation)
+    if(!('IntersectionObserver' in window)){
+      Array.prototype.forEach.call(heads, function(el){el.classList.add('is-anim')});
+      return;
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        var el = entry.target;
+        io.unobserve(el);
+        // Les titres se decoupent en mots ; l'intitule garde sa structure
+        // (trait + libelle) et n'est anime que par le CSS.
+        if(!el.classList.contains('eyebrow') && !el.querySelector('.tr-w')) splitForReveal(el);
+        // Forcer le calcul du style avant d'armer la transition. requestAnimationFrame
+        // n'est pas garanti (onglet en arriere-plan, bridage du navigateur) et
+        // laisserait alors l'intitule invisible pour toujours.
+        void el.offsetWidth;
+        el.classList.add('is-anim');
+      });
+    }, {rootMargin:'0px 0px -12% 0px', threshold:0.25});
+
+    Array.prototype.forEach.call(heads, function(el){io.observe(el)});
+  }
+
+  // ====================================================
+  // 4c) Capsules video du hero
+  // Chaque capsule cherche assets/video/<data-video>.mp4. Si le fichier est
+  // present il remplace l'emplacement ; sinon l'emplacement reste affiche.
+  // Rien a modifier dans le code pour ajouter une video : il suffit de
+  // deposer le fichier au bon nom.
+  // ====================================================
+  function initVideoCaps(){
+    var caps = document.querySelectorAll('.vcap[data-video]');
+    if(!caps.length) return;
+
+    // Une seule requete par nom, meme si la capsule est dupliquee pour la boucle
+    var checked = {};
+
+    Array.prototype.forEach.call(caps, function(cap){
+      var name = cap.getAttribute('data-video');
+      if(!name) return;
+      var src = 'assets/video/' + name + '.mp4';
+
+      if(checked[name] === false) return;              // deja teste : absent
+      if(checked[name] === true){ mount(cap, src); return; }
+
+      var probe = document.createElement('video');
+      probe.preload = 'metadata';
+      probe.muted = true;
+      probe.addEventListener('loadedmetadata', function(){
+        checked[name] = true;
+        mount(cap, src);
+        // les autres capsules du meme nom (doublons de la boucle)
+        Array.prototype.forEach.call(
+          document.querySelectorAll('.vcap[data-video="' + name + '"]'),
+          function(other){ if(other !== cap) mount(other, src); }
+        );
+      });
+      probe.addEventListener('error', function(){ checked[name] = false; });
+      probe.src = src;
+    });
+
+    function mount(cap, src){
+      if(cap.querySelector('.vcap__v')) return;        // deja monte
+      var v = document.createElement('video');
+      v.className = 'vcap__v';
+      v.src = src;
+      // Image d'attente : les videos demarrent sur une image blanche, et la
+      // lecture auto est parfois refusee (mobile, economie de donnees).
+      // Sans cela la capsule paraitrait vide.
+      v.poster = src.replace(/\.mp4$/, '.jpg');
+      v.muted = true; v.loop = true; v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('playsinline','');                // iOS : lecture sans plein ecran
+      v.setAttribute('muted','');
+      var ph = cap.querySelector('.vcap__ph');
+      if(ph) ph.remove();
+      // Les videos portent deja leur categorie en incrustation : la pastille
+      // ferait doublon. Elle ne sert qu'aux emplacements sans video.
+      var tag = cap.querySelector('.vcap__tag');
+      if(tag) tag.remove();
+      cap.insertBefore(v, cap.firstChild);
+      var p = v.play();
+      if(p && p.catch) p.catch(function(){});          // lecture auto refusee : sans consequence
+    }
   }
 
   // ====================================================
@@ -424,6 +526,8 @@
     initMouseParallax();
     initReveals();
     initTextReveal();
+    initHeadingAnim();
+    initVideoCaps();
     initStickyNav();
     initTilt();
     initMobileMenu();

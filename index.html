@@ -68,10 +68,11 @@
     <a class="navbtn" href="contact.html" data-track="nav-devis-mobile">Demander un devis</a>
   </div>
 
-  <div class="hero-inner" style="position:relative;z-index:10;max-width:1180px;margin:0 auto;padding:60px 56px 120px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px)">
-    <h1 class="h1-mobile" data-txt-reveal style="font:900 86px/.95 'Schibsted Grotesk',sans-serif;letter-spacing:-.04em;color:#fff;max-width:980px;text-wrap:balance;margin-bottom:28px;padding-top:8px">Votre assurance,<br>notre priorite.</h1>
-    <p data-reveal="fade" style="max-width:560px;font:500 19px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.92);margin-bottom:42px;transition-delay:.2s">Rigueur, expertise et proximite humaine. Nous negocions et pilotons vos garanties, pour vous, vos proches et votre entreprise, en toute transparence.</p>
-    <div data-reveal="slide-left" style="display:flex;gap:14px;align-items:center;margin-bottom:64px;flex-wrap:wrap;transition-delay:.3s">
+  <div class="hero-inner" style="position:relative;z-index:10;max-width:1180px;margin:0 auto;padding:60px 56px 120px;min-height:calc(100vh - 120px)">
+   <div class="hero-copy">
+    <h1 class="h1-mobile" data-txt-reveal style="font:900 clamp(46px,5.1vw,74px)/.98 'Schibsted Grotesk',sans-serif;letter-spacing:-.04em;color:#fff;max-width:980px;text-wrap:balance;margin-bottom:24px;padding-top:8px">Votre assurance,<br>notre priorite.</h1>
+    <p data-reveal="fade" style="max-width:560px;font:500 18px/1.6 'Manrope',sans-serif;color:rgba(255,255,255,.92);margin-bottom:34px;transition-delay:.2s">Rigueur, expertise et proximite humaine. Nous negocions et pilotons vos garanties, pour vous, vos proches et votre entreprise, en toute transparence.</p>
+    <div data-reveal="slide-left" style="display:flex;gap:14px;align-items:center;margin-bottom:44px;flex-wrap:wrap;transition-delay:.3s">
       <a class="btn-p" style="background:#fff;color:#C41230;padding:17px 30px;font-size:16px" href="contact.html" data-track="hero-devis">Demander un devis</a>
       <a class="btn-g" href="services.html" data-track="hero-services">Decouvrir nos services  →</a>
     </div>
@@ -80,6 +81,31 @@
       <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:32px"><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">250+</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.82);margin-top:10px">partenaires de soins</div></div>
       <div style="border-left:1px solid rgba(255,255,255,.22);padding-left:32px"><div style="font:900 44px/1 'Schibsted Grotesk',sans-serif;color:#fff;letter-spacing:-.03em">24h</div><div style="font:600 13px 'Manrope',sans-serif;color:rgba(255,255,255,.82);margin-top:10px">reponse a votre demande</div></div>
     </div>
+   </div>
+
+   <!-- CAPSULES VIDEO
+        Pour afficher une vraie video : deposer le fichier dans assets/video/
+        en le nommant d'apres l'attribut data-video de la capsule, par exemple
+        assets/video/sante.mp4 pour data-video="sante".
+        Le script la detecte et la met en place tout seul (voir initVideoCaps). -->
+   <div class="hero-caps" aria-label="Nos capsules video">
+     <div class="hero-caps__col">
+       <div class="hero-caps__track">
+         <article class="vcap" data-video="sante"><div class="vcap__ph"></div><span class="vcap__tag">Sante</span></article>
+         <article class="vcap" data-video="automobile"><div class="vcap__ph"></div><span class="vcap__tag">Automobile</span></article>
+         <article class="vcap" data-video="habitation"><div class="vcap__ph"></div><span class="vcap__tag">Habitation</span></article>
+         <article class="vcap" data-video="docteur"><div class="vcap__ph"></div><span class="vcap__tag">Docteur</span></article>
+         <article class="vcap" data-video="etudes"><div class="vcap__ph"></div><span class="vcap__tag">Etudes</span></article>
+         <article class="vcap" data-video="voyage"><div class="vcap__ph"></div><span class="vcap__tag">Voyage</span></article>
+         <article class="vcap" aria-hidden="true" data-video="sante"><div class="vcap__ph"></div><span class="vcap__tag">Sante</span></article>
+         <article class="vcap" aria-hidden="true" data-video="automobile"><div class="vcap__ph"></div><span class="vcap__tag">Automobile</span></article>
+         <article class="vcap" aria-hidden="true" data-video="habitation"><div class="vcap__ph"></div><span class="vcap__tag">Habitation</span></article>
+         <article class="vcap" aria-hidden="true" data-video="docteur"><div class="vcap__ph"></div><span class="vcap__tag">Docteur</span></article>
+         <article class="vcap" aria-hidden="true" data-video="etudes"><div class="vcap__ph"></div><span class="vcap__tag">Etudes</span></article>
+         <article class="vcap" aria-hidden="true" data-video="voyage"><div class="vcap__ph"></div><span class="vcap__tag">Voyage</span></article>
+       </div>
+     </div>
+   </div>
   </div>
 
   <div style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:15;color:rgba(255,255,255,.7);font:600 12px 'Manrope',sans-serif;letter-spacing:.18em;display:flex;flex-direction:column;align-items:center;gap:8px">
@@ -133,7 +159,7 @@
     <div data-reveal="slide-right" style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px;gap:40px;flex-wrap:wrap">
       <div>
         <div class="eyebrow"><span class="eyebrow__bar"></span><span class="eyebrow__label">POURQUOI NISSI</span></div>
-        <h2 class="section-title" style="max-width:680px">La solidite d'un expert, l'attention d'un proche.</h2>
+        <h2 class="section-title" style="max-width:680px;color:#E4032C">La solidite d'un expert, l'attention d'un proche.</h2>
       </div>
       <p style="max-width:340px;font:500 15px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Un accompagnement de bout en bout : du conseil a la gestion des sinistres, nous restons a vos cotes.</p>
     </div>
@@ -167,7 +193,7 @@
 <section data-reveal="fade" class="container" style="padding-top:96px;padding-bottom:48px;position:relative">
   <div data-reveal="slide-right" style="margin-bottom:52px">
     <div class="eyebrow"><span class="eyebrow__bar" style="background:#7F7F7F"></span><span class="eyebrow__label">NOS DOMAINES</span></div>
-    <h2 class="section-title" style="max-width:780px;margin-bottom:14px">Deux grandes familles d'assurance.</h2>
+    <h2 class="section-title" style="max-width:780px;margin-bottom:14px;color:#E4032C">Deux grandes familles d'assurance.</h2>
     <p style="max-width:520px;font:500 16px/1.6 'Manrope',sans-serif;color:var(--c-mute)">Une equipe unique pour proteger ce qui compte le plus pour vous, particuliers ou professionnels.</p>
   </div>
   <div data-reveal-stagger class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">

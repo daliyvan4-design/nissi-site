@@ -55,7 +55,9 @@ input,textarea,select,button{font-family:inherit}
 /* Honor user reduced motion */
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-  [data-px],[data-px-mouse],[data-reveal],[data-txt-reveal] .tr-c{transform:none!important;opacity:1!important}
+  [data-px],[data-px-mouse],[data-reveal],[data-txt-reveal] .tr-c,
+  .section-title .tr-c,[data-anim-title] .tr-c,
+  .eyebrow .eyebrow__bar,.eyebrow .eyebrow__label{transform:none!important;opacity:1!important}
 }
 
 /* ============== Layout primitives ============== */
@@ -313,6 +315,96 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 }
 .txt-reveal.is-in .tr-c,[data-txt-reveal].is-in .tr-c{transform:translate3d(0,0,0)}
 
+/* ============== Hero : texte + capsules video ============== */
+.hero-inner{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);gap:48px;align-items:center}
+.hero-copy{min-width:0}
+.hero-stats > div > div:first-child{font-size:clamp(30px,2.6vw,44px)!important}
+
+/* Les videos sont en paysage 16:9 : une seule colonne, sinon les capsules
+   seraient trop etroites pour qu'on y distingue quoi que ce soit. */
+.hero-caps{
+  /* Sans min-width:0, la largeur cumulee des capsules (plusieurs milliers de
+     pixels) devient la largeur minimale de la colonne de grille et fait
+     deborder tout le hero. */
+  min-width:0;
+  height:min(74vh,640px);
+  /* le defilement est fondu en haut et en bas */
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 11%,#000 89%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 11%,#000 89%,transparent);
+}
+.hero-caps__col{overflow:hidden;height:100%}
+.hero-caps__track{
+  display:flex;flex-direction:column;gap:16px;
+  animation:vcapUp 40s linear infinite;
+  will-change:transform;
+}
+.hero-caps:hover .hero-caps__track{animation-play-state:paused}
+
+/* Le contenu est duplique une fois : translater de 50% boucle sans saut */
+@keyframes vcapUp{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-50%,0)}}
+@keyframes vcapLeft{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
+.vcap{
+  position:relative;flex:0 0 auto;
+  aspect-ratio:16/9;border-radius:16px;overflow:hidden;
+  background:rgba(90,6,20,.42);                 /* assombri : le pictogramme et le libelle ressortent */
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:0 22px 46px -20px rgba(0,0,0,.6);
+}
+.vcap__v{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Emplacement en attente de la vraie video : degrade + pictogramme lecture */
+.vcap__ph{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(120% 80% at 30% 15%,rgba(255,255,255,.20),transparent 60%),
+    linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+}
+.vcap__ph::after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:0;height:0;margin:-11px 0 0 -6px;
+  border-style:solid;border-width:11px 0 11px 17px;
+  border-color:transparent transparent transparent rgba(255,255,255,.92);
+}
+.vcap__tag{
+  position:absolute;left:12px;bottom:12px;z-index:2;
+  font:700 11.5px 'Manrope',sans-serif;letter-spacing:.10em;text-transform:uppercase;
+  color:#fff;padding:6px 10px;border-radius:100px;
+  background:rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+
+/* ============== Animation des titres de section ==============
+   Sequence : le trait se trace -> les lettres de l'intitule montent ->
+   le titre se devoile mot par mot. Declenchee par initHeadingAnim(). */
+
+/* -- Intitule (POURQUOI NISSI, NOS DOMAINES...) --
+   L'etat masque est conditionne a .js-anim (pose par le script des son
+   demarrage) : si le JavaScript ne s'execute pas, l'intitule reste visible
+   au lieu de disparaitre definitivement. */
+.js-anim .eyebrow .eyebrow__bar{transform:scaleX(0);transform-origin:left center;transition:transform .55s var(--easing-snap)}
+.js-anim .eyebrow.is-anim .eyebrow__bar{transform:scaleX(1)}
+.js-anim .eyebrow .eyebrow__label{
+  display:inline-block;
+  opacity:0;transform:translate3d(-8px,0,0);
+  transition:opacity .6s var(--easing-soft) .18s,transform .6s var(--easing-snap) .18s;
+}
+.js-anim .eyebrow.is-anim .eyebrow__label{opacity:1;transform:none}
+
+/* -- Titre : les mots montent derriere un masque -- */
+.section-title,[data-anim-title]{overflow-wrap:break-word}
+.section-title .tr-w,[data-anim-title] .tr-w{
+  display:inline-block;overflow:hidden;vertical-align:bottom;
+  padding-bottom:.14em;margin-bottom:-.14em;   /* laisse passer les jambages (p, g, y) */
+}
+.section-title .tr-c,[data-anim-title] .tr-c{
+  display:inline-block;
+  transform:translate3d(0,110%,0);
+  transition:transform .85s var(--easing-snap);
+  transition-delay:var(--d,0s);
+}
+.section-title.is-anim .tr-c,[data-anim-title].is-anim .tr-c{transform:translate3d(0,0,0)}
+
 /* ============== Marquee strip ============== */
 .marquee{
   position:relative;overflow:hidden;
@@ -373,14 +465,29 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .pad-block-mobile.container{padding-left:22px;padding-right:22px}
 
   /* Hero inner padding override */
-  .hero-inner{padding:48px 22px 110px!important;min-height:calc(100vh - 80px)!important}
+  .hero-inner{padding:48px 22px 110px!important;min-height:calc(100vh - 80px)!important;
+              grid-template-columns:1fr!important;gap:34px!important;align-content:center}
+
+  /* Capsules : une bande qui defile horizontalement sous le texte */
+  .hero-caps{height:auto!important;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .hero-caps__track{flex-direction:row!important;gap:14px!important;
+                    animation-name:vcapLeft!important;animation-duration:30s!important}
+  .vcap{width:230px}
+  /* le hero mobile se resserre pour laisser voir la bande des le premier ecran */
+  .hero-inner{padding-bottom:76px!important;gap:24px!important}
+  .hero-copy p{margin-bottom:26px!important}
+  .hero-copy .btn-p,.hero-copy .btn-g{padding:14px 22px!important}
   .a-propos-hero .container{padding-top:54px!important;padding-bottom:64px!important}
 
-  /* Hero stats now stacks 1 col with separators */
-  .hero-stats{grid-template-columns:1fr!important;gap:18px!important;padding-top:28px!important}
-  .hero-stats > div{border-left:none!important;padding-left:0!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.15)}
-  .hero-stats > div:first-child{padding-top:0;border-top:none}
-  .hero-stats > div > div:first-child{font-size:38px!important}
+  /* Hero stats : 2 colonnes compactes. En 1 colonne le hero devenait si haut
+     que la bande de capsules tombait sous la ligne de flottaison. */
+  .hero-stats{grid-template-columns:1fr 1fr!important;gap:16px 18px!important;padding-top:22px!important}
+  .hero-stats > div{border-left:none!important;padding-left:0!important;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}
+  .hero-stats > div:nth-child(-n+2){padding-top:0;border-top:none}
+  .hero-stats > div > div:first-child{font-size:30px!important}
+  .hero-stats > div > div:last-child{font-size:12px!important}
 
   /* Reseau stats stacks 1 col */
   .reseau-stats{grid-template-columns:1fr 1fr!important;gap:24px!important}
