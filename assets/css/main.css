@@ -12,10 +12,16 @@ body{
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
 }
 /* Empeche tout defilement horizontal cause par les decors en absolu.
-   'clip' est prefere a 'hidden' : il ne cree pas de conteneur de defilement
-   et ne casse donc pas le menu sticky. */
-html,body{overflow-x:hidden}
-@supports (overflow-x:clip){html,body{overflow-x:clip}}
+   Applique au body seul : sur l'element racine, overflow se propage au
+   viewport et 'clip' y empeche tout defilement sur plusieurs navigateurs
+   mobiles. Verifie : le body suffit, rien ne deborde sans le clip sur html. */
+body{overflow-x:hidden}
+@supports (overflow-x:clip){body{overflow-x:clip}}
+
+/* 100vh sur telephone = hauteur ecran BARRE D'ADRESSE COMPRISE : le hero
+   depassait donc toujours du bas. 100svh est la hauteur reellement visible. */
+.hero{min-height:100vh}
+@supports (height:100svh){.hero{min-height:100svh}}
 img{display:block;max-width:100%;height:auto}
 a{color:#E4030B;text-decoration:none;transition:color .2s}
 a:hover{color:#C41218}
@@ -112,10 +118,6 @@ input,textarea,select,button{font-family:inherit}
 }
 .nnav__mobile.is-open{display:flex;flex-direction:column;gap:24px}
 .nnav__mobile a{font:700 26px 'Schibsted Grotesk',sans-serif;color:#1a1416}
-/* Le menu recouvre tout l'ecran, logo de la barre compris : on le remet ici
-   pour garder un retour a l'accueil sans avoir a fermer le menu. */
-.nnav__mobile-brand{align-self:flex-start;margin-bottom:6px}
-.nnav__mobile-brand img{height:38px;width:auto;display:block}
 /* color:#fff indispensable : la regle .nnav__mobile a (plus specifique que
    .navbtn) imposait sinon l'encre sombre, illisible sur le rouge. */
 .nnav__mobile a.navbtn{align-self:flex-start;font-family:'Manrope',sans-serif;font-size:15px;padding:14px 24px;color:#fff}

@@ -127,6 +127,8 @@
       });
       return;
     }
+    var cibles = document.querySelectorAll('[data-reveal],[data-reveal-stagger]');
+
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
@@ -136,9 +138,24 @@
       });
     }, {rootMargin:'-40px 0px -10% 0px', threshold:0.05});
 
-    document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(function(el){
-      io.observe(el);
-    });
+    Array.prototype.forEach.call(cibles, function(el){ io.observe(el); });
+
+    // Filet de securite. Ces blocs partent a opacite 0 : si l'observateur ne
+    // repond pas (navigateur ancien, onglet restaure, bride), tout le contenu
+    // sous l'accueil resterait invisible. On verifie donc aussi au defilement.
+    function verifier(){
+      var h = window.innerHeight || document.documentElement.clientHeight;
+      for(var i=0;i<cibles.length;i++){
+        var el = cibles[i];
+        if(el.classList.contains('is-in')) continue;
+        var r = el.getBoundingClientRect();
+        if(r.top < h * 0.92 && r.bottom > 0) el.classList.add('is-in');
+      }
+    }
+    var auDefilement = rafThrottle(verifier);
+    window.addEventListener('scroll', auDefilement, {passive:true});
+    window.addEventListener('resize', auDefilement, {passive:true});
+    setTimeout(verifier, 1200);      // rattrape aussi un chargement sans defilement
   }
 
   // ====================================================
