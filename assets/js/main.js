@@ -257,24 +257,17 @@
 
   // ====================================================
   // 4c) Video du hero
-  // Une seule video, en boucle, ralentie de moitie. Elle est declaree dans le
-  // HTML : sans JavaScript elle s'affiche quand meme, simplement a vitesse
-  // normale et sans mise en pause hors ecran.
+  // Une seule video, en boucle, a vitesse normale. Elle est declaree dans le
+  // HTML : sans JavaScript elle s'affiche quand meme, simplement sans mise en
+  // pause hors ecran.
   // ====================================================
   function initHeroVideo(){
     var v = document.querySelector('.hero-slide');
     if(!v) return;
 
-    var RALENTI = 0.5;                 // 14s de video durent 28s a l'ecran
-    function caler(){ v.playbackRate = RALENTI; }
-
     v.loop = true;
-    caler();
-    // certains navigateurs remettent la vitesse a 1 quand la source est prete
-    v.addEventListener('loadeddata', caler);
-    v.addEventListener('play', caler);
 
-    function lire(){ caler(); var p = v.play(); if(p && p.catch) p.catch(function(){}); }
+    function lire(){ var p = v.play(); if(p && p.catch) p.catch(function(){}); }
 
     // Inutile de faire tourner le decodage quand le hero est hors de vue ou
     // que l'onglet passe en arriere-plan : c'est autant de batterie economisee.
