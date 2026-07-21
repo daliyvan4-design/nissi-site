@@ -17,8 +17,8 @@ body{
 html,body{overflow-x:hidden}
 @supports (overflow-x:clip){html,body{overflow-x:clip}}
 img{display:block;max-width:100%;height:auto}
-a{color:#E4032C;text-decoration:none;transition:color .2s}
-a:hover{color:#C41230}
+a{color:#E4030B;text-decoration:none;transition:color .2s}
+a:hover{color:#C41218}
 h1,h2,h3,h4{font-family:'Schibsted Grotesk',sans-serif;margin:0;letter-spacing:-.02em}
 p{margin:0}
 ul,ol{margin:0;padding:0;list-style:none}
@@ -26,9 +26,9 @@ button{font-family:inherit;cursor:pointer}
 input,textarea,select,button{font-family:inherit}
 
 :root{
-  --c-red:#E4032C;
-  --c-red-dark:#C41230;
-  --c-red-darker:#a10f25;
+  --c-red:#E4030B;
+  --c-red-dark:#C41218;
+  --c-red-darker:#A10F14;
   --c-ink:#1a1416;
   --c-ink-2:#141012;
   --c-mute:#524a4d;
@@ -40,8 +40,8 @@ input,textarea,select,button{font-family:inherit}
   --c-cream:#faf8f6;
   --c-cream-2:#faf6f4;
   --c-pink-1:#fdeef0;
-  --c-pink-2:#EFAFB4;
-  --c-pink-3:#ffd9dd;
+  --c-pink-2:#EFAFB1;
+  --c-pink-3:#FFD9DA;
   --c-green:#1F8A5B;
   --c-green-bg:#e4f4ec;
   --shadow-pill:0 16px 40px -18px rgba(0,0,0,.4);
@@ -316,9 +316,9 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 .txt-reveal.is-in .tr-c,[data-txt-reveal].is-in .tr-c{transform:translate3d(0,0,0)}
 
 /* ============== Hero : diaporama video plein ecran ============== */
-/* #AC0007 = le rouge de fond des videos : les bords eventuels se confondent
+/* #AC0006 = le rouge de fond des videos : les bords eventuels se confondent
    avec l'image et ne se voient pas. */
-.hero-slides{position:absolute;inset:0;overflow:hidden;z-index:5;background:#AC0007}
+.hero-slides{position:absolute;inset:0;overflow:hidden;z-index:5;background:#AC0006}
 .hero-slide{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;                /* remplit l'ecran quel que soit le format */

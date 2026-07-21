@@ -419,7 +419,7 @@
           err.className = 'field-error';
           err.textContent = r.label + (r.name === 'email' ? ' invalide' : ' requis');
           el.parentNode.appendChild(err);
-          el.style.borderColor = '#E4032C';
+          el.style.borderColor = '#E4030B';
         } else {
           el.style.borderColor = '';
         }
@@ -427,7 +427,7 @@
       var consent = form.querySelector('[name="consent"]');
       if(consent && !consent.checked){
         invalid.push('Consentement');
-        consent.parentNode.style.color = '#E4032C';
+        consent.parentNode.style.color = '#E4030B';
       }
       // Honeypot (anti-spam) - champ cache doit rester vide
       var hp = form.querySelector('[name="_hp"]');
@@ -440,7 +440,7 @@
         if(confirm){
           confirm.textContent = 'Merci de completer : ' + invalid.join(', ');
           confirm.style.background = '#fdeef0';
-          confirm.style.color = '#C41230';
+          confirm.style.color = '#C41218';
         }
         return;
       }
@@ -476,7 +476,7 @@
         if(confirm){
           confirm.textContent = 'Une erreur est survenue lors de l\'envoi. Merci de reessayer dans un instant.';
           confirm.style.background = '#fdeef0';
-          confirm.style.color = '#C41230';
+          confirm.style.color = '#C41218';
         }
       }).finally(function(){
         if(btn) btn.disabled = false;
