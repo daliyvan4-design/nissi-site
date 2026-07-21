@@ -256,138 +256,46 @@
   }
 
   // ====================================================
-  // 4c) Diaporama video plein ecran du hero
-  // Deux lecteurs seulement alternent en fondu : pendant que l'un est a
-  // l'ecran, l'autre precharge la video suivante. Empiler les 6 videos
-  // saturait le nombre de decodeurs disponibles (surtout sur telephone) et
-  // certaines ne demarraient jamais.
+  // 4c) Video du hero
+  // Une seule video, en boucle, ralentie de moitie. Elle est declaree dans le
+  // HTML : sans JavaScript elle s'affiche quand meme, simplement a vitesse
+  // normale et sans mise en pause hors ecran.
   // ====================================================
-  function initHeroSlides(){
-    var scene = document.querySelector('.hero-slides');
-    if(!scene) return;
-    var lecteurs = scene.querySelectorAll('.hero-slide');
-    var noms = (scene.getAttribute('data-slides') || '').split(',').filter(Boolean);
-    if(lecteurs.length < 2 || noms.length < 2) return;
+  function initHeroVideo(){
+    var v = document.querySelector('.hero-slide');
+    if(!v) return;
 
-    var vv = scene.getAttribute('data-v');
-    var sfx = vv ? '?v=' + vv : '';
+    var RALENTI = 0.5;                 // 14s de video durent 28s a l'ecran
+    function caler(){ v.playbackRate = RALENTI; }
 
-    // Si assets/video/hero.mp4 existe, cette video unique remplace le
-    // diaporama : elle occupe le hero et tourne en boucle. Sinon on garde
-    // l'enchainement des 6 videos. Rien a modifier ici pour basculer.
-    var sonde = document.createElement('video');
-    sonde.preload = 'metadata';
-    sonde.muted = true;
-    sonde.addEventListener('loadedmetadata', function(){ modeVideoUnique(); });
-    sonde.addEventListener('error', function(){ modeDiaporama(); });
-    sonde.src = 'assets/video/hero.mp4' + sfx;
+    v.loop = true;
+    caler();
+    // certains navigateurs remettent la vitesse a 1 quand la source est prete
+    v.addEventListener('loadeddata', caler);
+    v.addEventListener('play', caler);
 
-    var RALENTI = 0.5;        // 50% de la vitesse : 14s de video durent 28s
+    function lire(){ caler(); var p = v.play(); if(p && p.catch) p.catch(function(){}); }
 
-    function modeVideoUnique(){
-      var v = lecteurs[0];
-      if(v.getAttribute('src') !== 'assets/video/hero.mp4' + sfx){
-        v.setAttribute('src', 'assets/video/hero.mp4' + sfx);
-        v.setAttribute('poster', 'assets/video/hero.jpg' + sfx);
-        v.load();
-      }
-      v.loop = true;
-      v.classList.add('is-on');
-      v.playbackRate = RALENTI;
-      // certains navigateurs remettent la vitesse a 1 quand la source est prete
-      v.addEventListener('loadeddata', function(){ v.playbackRate = RALENTI; });
-      v.addEventListener('play', function(){ v.playbackRate = RALENTI; });
-      var p = v.play();
-      if(p && p.catch) p.catch(function(){});
-      for(var i=1;i<lecteurs.length;i++){          // le second lecteur ne sert plus
-        lecteurs[i].removeAttribute('src');
-        lecteurs[i].parentNode.removeChild(lecteurs[i]);
-      }
-      // on suspend la lecture hors ecran ou onglet en arriere-plan
-      veilleur(function(){ var q=v.play(); if(q&&q.catch) q.catch(function(){}); },
-               function(){ v.pause(); });
+    // Inutile de faire tourner le decodage quand le hero est hors de vue ou
+    // que l'onglet passe en arriere-plan : c'est autant de batterie economisee.
+    var hero = document.querySelector('.hero'), visible = true, vuUneFois = false;
+    if('IntersectionObserver' in window && hero){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          // une premiere mesure erronee ne doit pas figer la video pour de bon
+          if(!e.isIntersecting && !vuUneFois) return;
+          if(e.isIntersecting) vuUneFois = true;
+          visible = e.isIntersecting;
+          if(visible && !document.hidden) lire(); else v.pause();
+        });
+      }, {threshold:0.15}).observe(hero);
     }
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) v.pause();
+      else if(visible) lire();
+    });
 
-    // Met en pause quand le hero sort de l'ecran ou que l'onglet passe en
-    // arriere-plan ; partage par les deux modes.
-    function veilleur(reprendre, suspendre){
-      var hero = document.querySelector('.hero'), visible = true, vuUneFois = false;
-      if('IntersectionObserver' in window && hero){
-        new IntersectionObserver(function(entries){
-          entries.forEach(function(e){
-            if(!e.isIntersecting && !vuUneFois) return;
-            if(e.isIntersecting) vuUneFois = true;
-            visible = e.isIntersecting;
-            if(visible && !document.hidden) reprendre(); else suspendre();
-          });
-        }, {threshold:0.15}).observe(hero);
-      }
-      document.addEventListener('visibilitychange', function(){
-        if(document.hidden) suspendre();
-        else if(visible) reprendre();
-      });
-    }
-
-    function modeDiaporama(){
-
-    var DUREE = 3500;
-    var idx = 0;          // video affichee
-    var actif = 0;        // lecteur affiche (0 ou 1)
-    var timer = null;
-
-    // Empreinte de version : les medias sont servis en "immutable" pour un an,
-    // sans elle un visiteur deja venu ne recevrait jamais une video remplacee.
-    var v = scene.getAttribute('data-v');
-    var suffixe = v ? '?v=' + v : '';
-    function url(n){ return 'assets/video/' + noms[n] + '.mp4' + suffixe; }
-    function img(n){ return 'assets/video/' + noms[n] + '.jpg' + suffixe; }
-
-    function charger(lecteur, n){
-      if(lecteur.getAttribute('src') === url(n)) return;
-      lecteur.setAttribute('src', url(n));
-      lecteur.setAttribute('poster', img(n));
-      lecteur.load();
-    }
-
-    function lire(lecteur){
-      var p = lecteur.play();
-      if(p && p.catch) p.catch(function(){});   // lecture auto refusee : le poster reste
-    }
-
-    // prepare des maintenant la video qui suivra
-    charger(lecteurs[1], 1 % noms.length);
-
-    function suivante(){
-      var suiv = (idx + 1) % noms.length;
-      var entrant = lecteurs[1 - actif], sortant = lecteurs[actif];
-
-      charger(entrant, suiv);
-      if(entrant.currentTime > 0.05) entrant.currentTime = 0;
-      lire(entrant);
-      entrant.classList.add('is-on');
-      sortant.classList.remove('is-on');
-
-      setTimeout(function(){
-        if(!sortant.classList.contains('is-on')){
-          sortant.pause();
-          charger(sortant, (suiv + 1) % noms.length);   // precharge la suivante
-        }
-      }, 900);
-
-      idx = suiv; actif = 1 - actif;
-    }
-
-    function demarrer(){ if(!timer) timer = setInterval(suivante, DUREE); }
-    function arreter(){
-      clearInterval(timer); timer = null;
-      Array.prototype.forEach.call(lecteurs, function(v){ v.pause(); });
-    }
-
-    veilleur(function(){ lire(lecteurs[actif]); demarrer(); }, arreter);
-
-    lire(lecteurs[0]);
-    demarrer();
-    }
+    lire();
   }
 
   // ====================================================
@@ -649,7 +557,7 @@
     initReveals();
     initTextReveal();
     initHeadingAnim();
-    initHeroSlides();
+    initHeroVideo();
     initStickyNav();
     initTilt();
     initMobileMenu();

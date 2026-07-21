@@ -32,6 +32,10 @@ PAGES.forEach(p => {
   // version des medias, lue par le script pour les videos
   s = s.replace(/(<div class="hero-slides"[^>]*?)(?:\s+data-v="[a-f0-9]+")?(\s|>)/,
                 (m, d, fin) => `${d} data-v="${vMedias}"${fin}`);
+  // la video ecrite en dur dans le HTML doit porter la meme version, sinon un
+  // visiteur deja venu garderait l'ancien fichier (cache "immutable" d'un an)
+  s = s.replace(/(src|poster)="(assets\/video\/[\w-]+\.(?:mp4|jpg))(?:\?v=[a-f0-9]+)?"/g,
+                (_, a, f) => `${a}="${f}?v=${vMedias}"`);
   if (s !== avant) { fs.writeFileSync(chemin, s); total++; }
 });
 
