@@ -412,6 +412,39 @@
   // ====================================================
   // 8) Contact form (validation + envoi API + honeypot)
   // ====================================================
+  // ====================================================
+  // Raccourcis "Declarer un sinistre" / "Demander un devis"
+  // Preselectionnent le sujet puis amenent au champ message, curseur dedans.
+  // ====================================================
+  function initRaccourcisForm(){
+    var cartes = document.querySelectorAll('.qcard--form[data-sujet]');
+    if(!cartes.length) return;
+    var sujet = document.getElementById('champ-sujet');
+    var message = document.getElementById('champ-message');
+    if(!sujet || !message) return;
+
+    Array.prototype.forEach.call(cartes, function(carte){
+      carte.addEventListener('click', function(e){
+        e.preventDefault();
+        var voulu = carte.getAttribute('data-sujet');
+
+        // on cherche l'option correspondante sans dependre de sa position
+        for(var i=0;i<sujet.options.length;i++){
+          if(sujet.options[i].text.trim() === voulu){ sujet.selectedIndex = i; break; }
+        }
+        sujet.dispatchEvent(new Event('change', {bubbles:true}));
+
+        var cible = document.getElementById('ecrivez-nous') || message;
+        if(cible.scrollIntoView) cible.scrollIntoView({behavior:'smooth', block:'start'});
+
+        // le focus apres le defilement, sinon le navigateur saute a la fin
+        setTimeout(function(){
+          try{ message.focus({preventScroll:true}); }catch(err){ message.focus(); }
+        }, 550);
+      });
+    });
+  }
+
   function initContactForm(){
     var form = document.querySelector('[data-contact-form]');
     if(!form) return;
@@ -576,6 +609,7 @@
     initStickyNav();
     initTilt();
     initMobileMenu();
+    initRaccourcisForm();
     initContactForm();
     initAnalytics();
   }

@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=5b106a1a">
+<link rel="stylesheet" href="assets/css/main.css?v=4fa9caa6">
 </head>
 <body>
 
@@ -52,8 +52,7 @@
     <h1 class="h1-mobile" style="font:800 60px/1.02 'Schibsted Grotesk',sans-serif;letter-spacing:-.035em;max-width:760px;text-wrap:balance;margin-bottom:20px">Parlons de votre projet d'assurance.</h1>
     <p style="max-width:560px;font:500 18px/1.65 'Manrope',sans-serif;color:var(--c-mute);margin-bottom:26px">Une question, un devis, un sinistre a declarer&nbsp;? Notre equipe vous repond avec attention.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <span style="display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:#faf6f4;border:1px solid rgba(0,0,0,.08);border-radius:100px;font:600 13px 'Manrope',sans-serif;color:#3a3236"><span style="width:8px;height:8px;border-radius:50%;background:var(--c-green)"></span>Reponse sous 24h ouvrees</span>
-      <span style="display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:#faf6f4;border:1px solid rgba(0,0,0,.08);border-radius:100px;font:600 13px 'Manrope',sans-serif;color:#3a3236">Conseil gratuit &amp; sans engagement</span>
+      <span style="display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:#faf6f4;border:1px solid rgba(0,0,0,.08);border-radius:100px;font:600 13px 'Manrope',sans-serif;color:#3a3236">Le conseil est gratuit, la decision vous appartient</span>
     </div>
   </div>
 </header>
@@ -74,7 +73,7 @@
         </div>
       </div>
     </div>
-    <form data-contact-form style="padding:44px;background:#fff" autocomplete="on" novalidate>
+    <form id="ecrivez-nous" data-contact-form style="padding:44px;background:#fff" autocomplete="on" novalidate>
       <h2 style="font:800 26px 'Schibsted Grotesk',sans-serif;letter-spacing:-.02em;margin-bottom:24px">Ecrivez-nous</h2>
       <div class="grid grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
         <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Prenom</label><input class="fld" name="prenom" type="text" placeholder="Aya" autocomplete="given-name" required></div>
@@ -85,9 +84,9 @@
         <div><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Telephone</label><input class="fld" name="telephone" type="tel" placeholder="+225 07 00 00 00 00" autocomplete="tel"></div>
       </div>
       <div style="margin-bottom:16px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Sujet</label>
-        <select class="fld" name="sujet" required><option>Demande de devis</option><option>Assurances de Personnes &amp; Sante</option><option>Assurances de Biens &amp; Pro</option><option>Declarer un sinistre</option><option>Autre</option></select>
+        <select class="fld" name="sujet" id="champ-sujet" required><option>Demande de devis</option><option>Assurances de Personnes &amp; Sante</option><option>Assurances de Biens &amp; Pro</option><option>Declarer un sinistre</option><option>Autre</option></select>
       </div>
-      <div style="margin-bottom:22px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Votre message</label><textarea class="fld" name="message" rows="4" placeholder="Decrivez votre besoin en quelques mots..." required></textarea></div>
+      <div style="margin-bottom:22px"><label style="display:block;font:600 13px 'Manrope',sans-serif;color:#3a3236;margin-bottom:8px">Votre message</label><textarea class="fld" name="message" id="champ-message" rows="4" placeholder="Decrivez votre besoin en quelques mots..." required></textarea></div>
       <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;cursor:pointer"><input name="consent" type="checkbox" style="margin-top:3px;accent-color:#E4030B;width:16px;height:16px" required><span style="font:500 13px/1.5 'Manrope',sans-serif;color:#7F7F7F">J'accepte que mes donnees soient utilisees pour traiter ma demande, conformement a la politique de confidentialite.</span></label>
       <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"><label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off"></label></div>
       <button class="btn-p" type="submit" style="width:100%">Envoyer ma demande</button>
@@ -99,19 +98,22 @@
 <!-- QUICK CONTACT + MAP -->
 <section data-reveal="fade" class="container grid-2 stack-mobile" style="padding-top:44px;padding-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch">
   <div style="display:flex;flex-direction:column;gap:16px">
-    <a href="contact.html" class="qcard" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
-      <div style="width:46px;height:46px;flex:none;border-radius:12px;background:#fdeef0;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4030B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 9 6 15 15 15l0-3.5-4-1.5-2 2c-2.5-1.3-4.7-3.5-6-6l2-2-1.5-4L4 5z"/></svg></div>
-      <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Nous appeler</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">Un conseiller en direct, du lundi au vendredi.</div></div>
-      <span style="font:700 20px 'Manrope',sans-serif;color:var(--c-red)">→</span>
-    </a>
-    <a href="contact.html" class="qcard" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
+    <details class="qcard qcard--tel">
+      <summary style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none;cursor:pointer;list-style:none">
+        <div style="width:46px;height:46px;flex:none;border-radius:12px;background:#fdeef0;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4030B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 9 6 15 15 15l0-3.5-4-1.5-2 2c-2.5-1.3-4.7-3.5-6-6l2-2-1.5-4L4 5z"/></svg></div>
+        <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Nous appeler</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">Choisissez la ligne, l'appel part directement.</div></div>
+        <span class="qcard__chev" style="font:700 20px 'Manrope',sans-serif;color:var(--c-red)">→</span>
+      </summary>
+      <div class="qtel-liste"><a class="qtel" href="tel:+2252722533855" data-track="appel-3855"><span class="qtel__num">+225 27 22 53 38 55</span><span class="qtel__lab">Bureau</span></a><a class="qtel" href="tel:+2250787002660" data-track="appel-2660"><span class="qtel__num">+225 07 87 00 26 60</span><span class="qtel__lab">Mobile</span></a><a class="qtel" href="tel:+2250777353922" data-track="appel-3922"><span class="qtel__num">+225 07 77 35 39 22</span><span class="qtel__lab">Mobile</span></a><a class="qtel" href="tel:+2250150284807" data-track="appel-4807"><span class="qtel__num">+225 01 50 28 48 07</span><span class="qtel__lab">Mobile</span></a></div>
+    </details>
+    <a href="#ecrivez-nous" data-sujet="Declarer un sinistre" class="qcard qcard--form" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
       <div style="width:46px;height:46px;flex:none;border-radius:12px;background:#fdeef0;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4030B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-      <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Declarer un sinistre</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">En ligne ou via l'application, 24h/24.</div></div>
+      <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Declarer un sinistre</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">Decrivez ce qui s'est passe, on vous rappelle.</div></div>
       <span style="font:700 20px 'Manrope',sans-serif;color:var(--c-red)">→</span>
     </a>
-    <a href="contact.html" class="qcard" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
+    <a href="#ecrivez-nous" data-sujet="Demande de devis" class="qcard qcard--form" style="display:flex;gap:16px;align-items:center;padding:24px;border:1px solid rgba(0,0,0,.09);border-radius:16px;color:inherit;text-decoration:none">
       <div style="width:46px;height:46px;flex:none;border-radius:12px;background:#fdeef0;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4030B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
-      <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Demander un devis</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">Recevez une proposition sur mesure sous 24h.</div></div>
+      <div style="flex:1"><div style="font:700 16px 'Schibsted Grotesk',sans-serif">Demander un devis</div><div style="font:500 13.5px 'Manrope',sans-serif;color:var(--c-mute)">Dites-nous ce que vous voulez couvrir.</div></div>
       <span style="font:700 20px 'Manrope',sans-serif;color:var(--c-red)">→</span>
     </a>
   </div>
@@ -129,7 +131,6 @@
   </div>
   <div>
     <details class="faq" open><summary>Combien de temps pour obtenir un devis&nbsp;?<span class="qmark">+</span></summary><div class="ans">Apres un premier echange, nous revenons vers vous sous 24h ouvrees avec une proposition personnalisee et sans engagement.</div></details>
-    <details class="faq"><summary>Puis-je souscrire entierement en ligne&nbsp;?<span class="qmark">+</span></summary><div class="ans">Oui. Grace a la validation digitale, vous signez et activez votre contrat en quelques minutes, sans deplacement.</div></details>
     <details class="faq"><summary>Comment declarer un sinistre&nbsp;?<span class="qmark">+</span></summary><div class="ans">Depuis l'application mobile ou votre espace client, en joignant quelques photos. Vous suivez ensuite l'avancement en temps reel.</div></details>
     <details class="faq"><summary>Travaillez-vous avec les entreprises&nbsp;?<span class="qmark">+</span></summary><div class="ans">Absolument. Nous accompagnons les entreprises sur la sante collective, la multirisque et la prevoyance, avec un extranet RH dedie.</div></details>
     <details class="faq"><summary>Le premier conseil est-il payant&nbsp;?<span class="qmark">+</span></summary><div class="ans">Non. Le conseil et le devis sont gratuits et sans engagement de votre part.</div></details>
@@ -185,6 +186,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=5b106a1a"></script>
+<script src="assets/js/main.js?v=4fa9caa6"></script>
 </body>
 </html>
