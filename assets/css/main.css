@@ -390,7 +390,19 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
           mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
 }
 .marquee__track{display:flex;gap:60px;width:max-content;animation:marquee 36s linear infinite;will-change:transform}
-.marquee:hover .marquee__track{animation-play-state:paused}
+/* La pause au survol reste "collee" sur ecran tactile : une fois la zone
+   touchee, la banniere se figeait definitivement sur telephone. On la reserve
+   donc aux appareils avec une vraie souris. */
+@media (hover:hover) and (pointer:fine){
+  .marquee:hover .marquee__track{animation-play-state:paused}
+}
+
+/* Rubriques de la banniere : couleurs alternees */
+.mq{font:700 18px 'Schibsted Grotesk',sans-serif;letter-spacing:.04em;white-space:nowrap}
+.mq--r{color:var(--c-red)}
+.mq--g{color:#7F7F7F}
+.mq--n{color:#1a1416}
+.mq__sep{color:rgba(0,0,0,.18)}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 
 /* ============== Floating blobs (parallax decor) ============== */
@@ -492,7 +504,7 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .nav-lnk{font-size:12.5px!important}
 
   /* Marquee strip smaller text */
-  .marquee__track span{font-size:15px!important}
+  .marquee__track .mq{font-size:15px!important}
 
   /* Lists inside cards wrap nicely */
   details.faq summary{font-size:16px!important;padding:18px 4px!important}
