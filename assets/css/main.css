@@ -112,7 +112,13 @@ input,textarea,select,button{font-family:inherit}
 }
 .nnav__mobile.is-open{display:flex;flex-direction:column;gap:24px}
 .nnav__mobile a{font:700 26px 'Schibsted Grotesk',sans-serif;color:#1a1416}
-.nnav__mobile a.navbtn{align-self:flex-start;font-family:'Manrope',sans-serif;font-size:15px;padding:14px 24px}
+/* Le menu recouvre tout l'ecran, logo de la barre compris : on le remet ici
+   pour garder un retour a l'accueil sans avoir a fermer le menu. */
+.nnav__mobile-brand{align-self:flex-start;margin-bottom:6px}
+.nnav__mobile-brand img{height:38px;width:auto;display:block}
+/* color:#fff indispensable : la regle .nnav__mobile a (plus specifique que
+   .navbtn) imposait sinon l'encre sombre, illisible sur le rouge. */
+.nnav__mobile a.navbtn{align-self:flex-start;font-family:'Manrope',sans-serif;font-size:15px;padding:14px 24px;color:#fff}
 .nnav__mobile .close{
   position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;
   background:#f5f3f1;border:none;font-size:22px;color:#1a1416;
@@ -435,7 +441,9 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .nnav-wrap{padding:14px 16px}
   .nnav{padding:8px 8px 8px 18px!important;gap:14px!important}
   .nnav__links{display:none}
-  .navbtn{display:none}
+  /* On masque le bouton de la barre (remplace par le burger), mais pas celui
+     du menu deroulant : cible sans distinction, il n'y a jamais ete visible. */
+  .nnav .navbtn{display:none}
   .nnav__burger{display:flex}
   .nnav__brand img{height:30px}
   .footer{padding:48px 22px 28px}
