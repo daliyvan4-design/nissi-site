@@ -274,8 +274,12 @@
     var actif = 0;        // lecteur affiche (0 ou 1)
     var timer = null;
 
-    function url(n){ return 'assets/video/' + noms[n] + '.mp4'; }
-    function img(n){ return 'assets/video/' + noms[n] + '.jpg'; }
+    // Empreinte de version : les medias sont servis en "immutable" pour un an,
+    // sans elle un visiteur deja venu ne recevrait jamais une video remplacee.
+    var v = scene.getAttribute('data-v');
+    var suffixe = v ? '?v=' + v : '';
+    function url(n){ return 'assets/video/' + noms[n] + '.mp4' + suffixe; }
+    function img(n){ return 'assets/video/' + noms[n] + '.jpg' + suffixe; }
 
     function charger(lecteur, n){
       if(lecteur.getAttribute('src') === url(n)) return;

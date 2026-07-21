@@ -139,8 +139,8 @@ export default async function handler(req, res) {
         logoWhiteUrl: process.env.EMAIL_LOGO_URL || 'https://nissi-site.vercel.app/assets/img/nissi-logo-white.png',
         siteUrl: process.env.SITE_URL || 'https://nissi-site.vercel.app',
         adminEmail: process.env.CONTACT_TO_EMAIL,
-        phone: process.env.CONTACT_PHONE || '+225 27 22 00 00 00',
-        address: process.env.CONTACT_ADDRESS || 'Abidjan, Côte d\'Ivoire'
+        phone: process.env.CONTACT_PHONE || '+225 27 22 53 38 55',
+        address: process.env.CONTACT_ADDRESS || 'Riviera Palmeraie, Abidjan'
       };
 
       // 2a) Mail admin -> arborescence interne
