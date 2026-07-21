@@ -315,64 +315,33 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 }
 .txt-reveal.is-in .tr-c,[data-txt-reveal].is-in .tr-c{transform:translate3d(0,0,0)}
 
-/* ============== Hero : texte + capsules video ============== */
-.hero-inner{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);gap:48px;align-items:center}
-.hero-copy{min-width:0}
-.hero-stats > div > div:first-child{font-size:clamp(30px,2.6vw,44px)!important}
+/* ============== Hero : diaporama video plein ecran ============== */
+/* #AC0007 = le rouge de fond des videos : les bords eventuels se confondent
+   avec l'image et ne se voient pas. */
+.hero-slides{position:absolute;inset:0;overflow:hidden;z-index:5;background:#AC0007}
+.hero-slide{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;                /* remplit l'ecran quel que soit le format */
+  opacity:0;transition:opacity .8s ease-in-out;
+}
+.hero-slide.is-on{opacity:1}
 
-/* Les videos sont en paysage 16:9 : une seule colonne, sinon les capsules
-   seraient trop etroites pour qu'on y distingue quoi que ce soit. */
-.hero-caps{
-  /* Sans min-width:0, la largeur cumulee des capsules (plusieurs milliers de
-     pixels) devient la largeur minimale de la colonne de grille et fait
-     deborder tout le hero. */
-  min-width:0;
-  height:min(74vh,640px);
-  /* le defilement est fondu en haut et en bas */
-  -webkit-mask-image:linear-gradient(180deg,transparent,#000 11%,#000 89%,transparent);
-          mask-image:linear-gradient(180deg,transparent,#000 11%,#000 89%,transparent);
+/* Ecrans etroits (telephones, tablettes en portrait) : en "cover" la video
+   16:9 serait rognee au point de couper le texte NISSI incruste. On affiche
+   donc l'image entiere. */
+@media (max-aspect-ratio: 4/3){
+  .hero-slide{object-fit:contain}
 }
-.hero-caps__col{overflow:hidden;height:100%}
-.hero-caps__track{
-  display:flex;flex-direction:column;gap:16px;
-  animation:vcapUp 40s linear infinite;
-  will-change:transform;
+/* voiles haut et bas : gardent le menu et la mention SCROLL lisibles */
+.hero-slides__scrim{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(90,6,20,.42) 0%,rgba(90,6,20,0) 22%,
+                             rgba(90,6,20,0) 74%,rgba(90,6,20,.45) 100%);
 }
-.hero-caps:hover .hero-caps__track{animation-play-state:paused}
 
-/* Le contenu est duplique une fois : translater de 50% boucle sans saut */
-@keyframes vcapUp{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-50%,0)}}
-@keyframes vcapLeft{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
-
-.vcap{
-  position:relative;flex:0 0 auto;
-  aspect-ratio:16/9;border-radius:16px;overflow:hidden;
-  background:rgba(90,6,20,.42);                 /* assombri : le pictogramme et le libelle ressortent */
-  border:1px solid rgba(255,255,255,.26);
-  box-shadow:0 22px 46px -20px rgba(0,0,0,.6);
-}
-.vcap__v{width:100%;height:100%;object-fit:cover;display:block}
-
-/* Emplacement en attente de la vraie video : degrade + pictogramme lecture */
-.vcap__ph{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(120% 80% at 30% 15%,rgba(255,255,255,.20),transparent 60%),
-    linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
-}
-.vcap__ph::after{
-  content:"";position:absolute;left:50%;top:50%;
-  width:0;height:0;margin:-11px 0 0 -6px;
-  border-style:solid;border-width:11px 0 11px 17px;
-  border-color:transparent transparent transparent rgba(255,255,255,.92);
-}
-.vcap__tag{
-  position:absolute;left:12px;bottom:12px;z-index:2;
-  font:700 11.5px 'Manrope',sans-serif;letter-spacing:.10em;text-transform:uppercase;
-  color:#fff;padding:6px 10px;border-radius:100px;
-  background:rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-}
+/* Le bloc titre + chiffres, desormais sous la video */
+.hero-text .hero-stats{margin-top:6px}
+.hero-text h1{margin-bottom:20px!important}
 
 /* ============== Animation des titres de section ==============
    Sequence : le trait se trace -> les lettres de l'intitule montent ->
@@ -464,21 +433,7 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   .pad-block-mobile{padding-left:22px;padding-right:22px}
   .pad-block-mobile.container{padding-left:22px;padding-right:22px}
 
-  /* Hero inner padding override */
-  .hero-inner{padding:48px 22px 110px!important;min-height:calc(100vh - 80px)!important;
-              grid-template-columns:1fr!important;gap:34px!important;align-content:center}
 
-  /* Capsules : une bande qui defile horizontalement sous le texte */
-  .hero-caps{height:auto!important;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-            mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-  .hero-caps__track{flex-direction:row!important;gap:14px!important;
-                    animation-name:vcapLeft!important;animation-duration:30s!important}
-  .vcap{width:230px}
-  /* le hero mobile se resserre pour laisser voir la bande des le premier ecran */
-  .hero-inner{padding-bottom:76px!important;gap:24px!important}
-  .hero-copy p{margin-bottom:26px!important}
-  .hero-copy .btn-p,.hero-copy .btn-g{padding:14px 22px!important}
   .a-propos-hero .container{padding-top:54px!important;padding-bottom:64px!important}
 
   /* Hero stats : 2 colonnes compactes. En 1 colonne le hero devenait si haut
@@ -556,7 +511,6 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   :root{--pad-x:18px}
   .footer__cols{grid-template-columns:1fr!important}
   .footer__col--brand{grid-column:auto}
-  .hero-inner{padding:42px 18px 100px!important}
   .a-propos-hero .container{padding-top:48px!important;padding-bottom:52px!important}
   .h1-mobile{font-size:32px!important;line-height:1.1!important}
   .section-title{font-size:26px!important}
@@ -593,14 +547,12 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   :root{--pad-x:14px}
   .h1-mobile{font-size:29px!important}
   .section-title{font-size:23px!important}
-  .hero-inner{padding:36px 14px 96px!important}
   .cta-block{padding:36px 18px!important}
   .contact-split > form{padding:24px 16px!important}
 }
 
 /* Tablet portrait — faire respirer un peu plus */
 @media (min-width:821px) and (max-width:1024px){
-  .hero-inner{padding:60px 32px 130px!important}
   .reseau-stats{gap:18px!important}
   .reseau-stats > div > div:first-child{font-size:48px!important}
 }

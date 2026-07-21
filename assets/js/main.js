@@ -239,66 +239,90 @@
   }
 
   // ====================================================
-  // 4c) Capsules video du hero
-  // Chaque capsule cherche assets/video/<data-video>.mp4. Si le fichier est
-  // present il remplace l'emplacement ; sinon l'emplacement reste affiche.
-  // Rien a modifier dans le code pour ajouter une video : il suffit de
-  // deposer le fichier au bon nom.
+  // 4c) Diaporama video plein ecran du hero
+  // Deux lecteurs seulement alternent en fondu : pendant que l'un est a
+  // l'ecran, l'autre precharge la video suivante. Empiler les 6 videos
+  // saturait le nombre de decodeurs disponibles (surtout sur telephone) et
+  // certaines ne demarraient jamais.
   // ====================================================
-  function initVideoCaps(){
-    var caps = document.querySelectorAll('.vcap[data-video]');
-    if(!caps.length) return;
+  function initHeroSlides(){
+    var scene = document.querySelector('.hero-slides');
+    if(!scene) return;
+    var lecteurs = scene.querySelectorAll('.hero-slide');
+    var noms = (scene.getAttribute('data-slides') || '').split(',').filter(Boolean);
+    if(lecteurs.length < 2 || noms.length < 2) return;
 
-    // Une seule requete par nom, meme si la capsule est dupliquee pour la boucle
-    var checked = {};
+    var DUREE = 3500;
+    var idx = 0;          // video affichee
+    var actif = 0;        // lecteur affiche (0 ou 1)
+    var timer = null;
 
-    Array.prototype.forEach.call(caps, function(cap){
-      var name = cap.getAttribute('data-video');
-      if(!name) return;
-      var src = 'assets/video/' + name + '.mp4';
+    function url(n){ return 'assets/video/' + noms[n] + '.mp4'; }
+    function img(n){ return 'assets/video/' + noms[n] + '.jpg'; }
 
-      if(checked[name] === false) return;              // deja teste : absent
-      if(checked[name] === true){ mount(cap, src); return; }
+    function charger(lecteur, n){
+      if(lecteur.getAttribute('src') === url(n)) return;
+      lecteur.setAttribute('src', url(n));
+      lecteur.setAttribute('poster', img(n));
+      lecteur.load();
+    }
 
-      var probe = document.createElement('video');
-      probe.preload = 'metadata';
-      probe.muted = true;
-      probe.addEventListener('loadedmetadata', function(){
-        checked[name] = true;
-        mount(cap, src);
-        // les autres capsules du meme nom (doublons de la boucle)
-        Array.prototype.forEach.call(
-          document.querySelectorAll('.vcap[data-video="' + name + '"]'),
-          function(other){ if(other !== cap) mount(other, src); }
-        );
-      });
-      probe.addEventListener('error', function(){ checked[name] = false; });
-      probe.src = src;
+    function lire(lecteur){
+      var p = lecteur.play();
+      if(p && p.catch) p.catch(function(){});   // lecture auto refusee : le poster reste
+    }
+
+    // prepare des maintenant la video qui suivra
+    charger(lecteurs[1], 1 % noms.length);
+
+    function suivante(){
+      var suiv = (idx + 1) % noms.length;
+      var entrant = lecteurs[1 - actif], sortant = lecteurs[actif];
+
+      charger(entrant, suiv);
+      if(entrant.currentTime > 0.05) entrant.currentTime = 0;
+      lire(entrant);
+      entrant.classList.add('is-on');
+      sortant.classList.remove('is-on');
+
+      setTimeout(function(){
+        if(!sortant.classList.contains('is-on')){
+          sortant.pause();
+          charger(sortant, (suiv + 1) % noms.length);   // precharge la suivante
+        }
+      }, 900);
+
+      idx = suiv; actif = 1 - actif;
+    }
+
+    function demarrer(){ if(!timer) timer = setInterval(suivante, DUREE); }
+    function arreter(){
+      clearInterval(timer); timer = null;
+      Array.prototype.forEach.call(lecteurs, function(v){ v.pause(); });
+    }
+
+    // Rien ne tourne quand le hero est hors de vue ou l'onglet en arriere-plan
+    var hero = document.querySelector('.hero'), visible = true, vuUneFois = false;
+    if('IntersectionObserver' in window && hero){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          // Tant que le hero n'a jamais ete signale visible, on ignore un
+          // "hors ecran" : une premiere mesure erronee figerait le diaporama.
+          if(!e.isIntersecting && !vuUneFois) return;
+          if(e.isIntersecting) vuUneFois = true;
+          visible = e.isIntersecting;
+          if(visible && !document.hidden){ lire(lecteurs[actif]); demarrer(); }
+          else arreter();
+        });
+      }, {threshold:0.15}).observe(hero);
+    }
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) arreter();
+      else if(visible){ lire(lecteurs[actif]); demarrer(); }
     });
 
-    function mount(cap, src){
-      if(cap.querySelector('.vcap__v')) return;        // deja monte
-      var v = document.createElement('video');
-      v.className = 'vcap__v';
-      v.src = src;
-      // Image d'attente : les videos demarrent sur une image blanche, et la
-      // lecture auto est parfois refusee (mobile, economie de donnees).
-      // Sans cela la capsule paraitrait vide.
-      v.poster = src.replace(/\.mp4$/, '.jpg');
-      v.muted = true; v.loop = true; v.autoplay = true;
-      v.playsInline = true;
-      v.setAttribute('playsinline','');                // iOS : lecture sans plein ecran
-      v.setAttribute('muted','');
-      var ph = cap.querySelector('.vcap__ph');
-      if(ph) ph.remove();
-      // Les videos portent deja leur categorie en incrustation : la pastille
-      // ferait doublon. Elle ne sert qu'aux emplacements sans video.
-      var tag = cap.querySelector('.vcap__tag');
-      if(tag) tag.remove();
-      cap.insertBefore(v, cap.firstChild);
-      var p = v.play();
-      if(p && p.catch) p.catch(function(){});          // lecture auto refusee : sans consequence
-    }
+    lire(lecteurs[0]);
+    demarrer();
   }
 
   // ====================================================
@@ -527,7 +551,7 @@
     initReveals();
     initTextReveal();
     initHeadingAnim();
-    initVideoCaps();
+    initHeroSlides();
     initStickyNav();
     initTilt();
     initMobileMenu();
