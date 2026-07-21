@@ -318,11 +318,17 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 /* ============== Hero : diaporama video plein ecran ============== */
 /* #AC0006 = le rouge de fond des videos : les bords eventuels se confondent
    avec l'image et ne se voient pas. */
-.hero-slides{position:absolute;inset:0;overflow:hidden;z-index:5;background:#AC0006}
+/* Degrade releve sur le bord des videos : sur ecran etroit la video est
+   affichee en entier et laisse des bandes ; elles prolongent ainsi
+   l'image au lieu de trancher dessus. */
+.hero-slides{position:absolute;inset:0;overflow:hidden;z-index:5;
+  background:linear-gradient(90deg,#AC0007 0%,#AD000D 25%,#B81626 50%,#BD2434 75%,#B10115 100%)}
 .hero-slide{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;                /* remplit l'ecran quel que soit le format */
   opacity:0;transition:opacity .8s ease-in-out;
+  /* le fond flou (pose par le script) comble les bandes en mode "contain" */
+  background-size:cover;background-position:center;background-repeat:no-repeat;
 }
 .hero-slide.is-on{opacity:1}
 
@@ -332,11 +338,14 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
 @media (max-aspect-ratio: 4/3){
   .hero-slide{object-fit:contain}
 }
-/* voiles haut et bas : gardent le menu et la mention SCROLL lisibles */
+/* Voile du haut : garde le menu lisible sur une image claire.
+   Voile du bas : fond vers #A80006, exactement la couleur sur laquelle demarre
+   la section suivante, pour que la jonction ne se voie pas. */
 .hero-slides__scrim{
   position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(90,6,20,.42) 0%,rgba(90,6,20,0) 22%,
-                             rgba(90,6,20,0) 74%,rgba(90,6,20,.45) 100%);
+  background:linear-gradient(180deg,
+    rgba(90,6,20,.42) 0%, rgba(90,6,20,0) 22%,
+    rgba(168,0,6,0) 76%, rgba(168,0,6,.75) 94%, #A80006 100%);
 }
 
 /* Le bloc titre + chiffres, desormais sous la video */
