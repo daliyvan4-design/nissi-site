@@ -215,7 +215,7 @@
                 +   '</div>'
                 +   '<div class="msg-meta">'
                 +     '<span>✉ ' + escapeHtml(m.email || '') + '</span>'
-                +     (m.telephone ? '<span>☎ ' + escapeHtml(m.telephone) + '</span>' : '')
+                +     (m.Téléphone ? '<span>☎ ' + escapeHtml(m.Téléphone) + '</span>' : '')
                 +     '<span>· ' + escapeHtml(fmtDate(m.created_at)) + '</span>'
                 +   '</div>'
                 +   '<div class="msg-body">' + escapeHtml(m.message || '') + '</div>'
