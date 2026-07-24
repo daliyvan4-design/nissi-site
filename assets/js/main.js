@@ -306,6 +306,40 @@
   }
 
   // ====================================================
+  // 5b) Scene mascotte Nisso (accueil)
+  // Quand la section entre dans le champ, Nisso glisse depuis la droite et la
+  // bulle apparait. La video ne tourne que pendant ce temps (batterie).
+  // ====================================================
+  function initNissoScene(){
+    var scene = document.querySelector('.nisso-scene');
+    if(!scene) return;
+    var video = scene.querySelector('.nisso-scene__vid');
+
+    if(!('IntersectionObserver' in window)){
+      scene.classList.add('is-in');
+      if(video){ var p0 = video.play(); if(p0 && p0.catch) p0.catch(function(){}); }
+      return;
+    }
+
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          scene.classList.add('is-in');
+          if(video && !document.hidden){ var p = video.play(); if(p && p.catch) p.catch(function(){}); }
+        } else if(video){
+          video.pause();
+        }
+      });
+    }, {threshold:0.35}).observe(scene);
+
+    document.addEventListener('visibilitychange', function(){
+      if(!video) return;
+      if(document.hidden) video.pause();
+      else if(scene.classList.contains('is-in')){ var p = video.play(); if(p && p.catch) p.catch(function(){}); }
+    });
+  }
+
+  // ====================================================
   // 6) Tilt 3D cards
   // ====================================================
   function initTilt(){
@@ -552,6 +586,7 @@
     initHeadingAnim();
     initHeroVideo();
     initStickyNav();
+    initNissoScene();
     initTilt();
     initMobileMenu();
     initRaccourcisForm();
