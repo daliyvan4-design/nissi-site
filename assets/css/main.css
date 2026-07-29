@@ -471,6 +471,16 @@ header.hero, header.hero-light{position:relative;overflow:hidden}
   font:700 14px 'Manrope',sans-serif;color:var(--c-red);
 }
 .sc-acc__cta:hover{color:var(--c-red-dark)}
+/* Docteur House : badge "Nouveau" + sous-sections du detail */
+.sc-acc__new{
+  display:inline-block;margin-left:10px;vertical-align:middle;
+  background:var(--c-red);color:#fff;border-radius:100px;
+  padding:3px 10px;font:700 10.5px/1 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;
+}
+.dh{margin-bottom:16px}
+.dh__h{font:700 14px 'Schibsted Grotesk',sans-serif;color:var(--c-red);margin-bottom:5px}
+.dh p{font:500 14.5px/1.6 'Manrope',sans-serif;color:var(--c-mute)}
+
 @media (max-width:600px){
   .sc-acc__body{padding-left:22px}
   .sc-acc__t{font-size:16.5px}
