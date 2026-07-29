@@ -6,5 +6,9 @@
   "dependencies": {
     "@vercel/blob": "^2.6.1",
     "resend": "^4.5.1"
+  },
+  "scripts": {
+    "dev": "python3 -m http.server 8321 --bind 127.0.0.1",
+    "dev:api": "vercel dev"
   }
 }
